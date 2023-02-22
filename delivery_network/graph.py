@@ -28,8 +28,6 @@ class Graph:
         self.graph = dict([(n, []) for n in nodes])
         self.nb_nodes = len(nodes)
         self.nb_edges = 0
-    
-
     def __str__(self):
         """Prints the graph as a list of neighbors for each node (one per line)"""
         if not self.graph:
@@ -41,21 +39,18 @@ class Graph:
         return output
     
     def add_edge(self, node1, node2, power_min, dist=1):
-        """
-        Adds an edge to the graph. Graphs are not oriented, hence an edge is added to the adjacency list of both end nodes. 
-
-        Parameters: 
-        -----------
-        node1: NodeType
-            First end (node) of the edge
-        node2: NodeType
-            Second end (node) of the edge
-        power_min: numeric (int or float)
-            Minimum power on this edge
-        dist: numeric (int or float), optional
-            Distance between node1 and node2 on the edge. Default is 1.
-        """
-        raise NotImplementedError
+        self.nb_edges += 1
+        if node1 in self.graph.keys():
+            self.graph[node1].append((node2, power_min, dist))
+        else:
+            key, value = node1, (node2, power_min, dist)
+            self.graph[key] = [value]
+        if node2 in self.graph.keys():
+            self.graph[node2].append((node1, power_min, dist))
+        else:
+            key, value = node2, (node1, power_min, dist)
+            self.graph[key] = [value]
+        return self.graph    
     
 
     def get_path_with_power(self, src, dest, power):
@@ -100,4 +95,19 @@ def graph_from_file(filename):
     G: Graph
         An object of the class Graph with the graph from file_name.
     """
-    raise NotImplementedError
+    with open(filename) as file:
+        ligne1=file.readline().split()
+        n=int(ligne1[0])
+        m=int(ligne1[1])
+        nodes = [i for i in range(1, n+1)]
+        G=Graph(nodes)
+        for i in range(m):
+            lignei=file.readline().split()
+            node1=int(lignei[0])
+            node2=int(lignei[1])
+            power_min=int(lignei[2])
+            if len(lignei)>3:
+                dist=int(lignei[3])
+                G.add_edge(node1, node2, power_min, dist)
+            G.add_edge(node1, node2, power_min)
+    return G
