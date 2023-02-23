@@ -28,6 +28,7 @@ class Graph:
         self.graph = dict([(n, []) for n in nodes])
         self.nb_nodes = len(nodes)
         self.nb_edges = 0
+
     def __str__(self):
         """Prints the graph as a list of neighbors for each node (one per line)"""
         if not self.graph:
@@ -39,28 +40,43 @@ class Graph:
         return output
     
     def add_edge(self, node1, node2, power_min, dist=1):
-        self.nb_edges += 1
+        
+
         if node1 in self.graph.keys():
             self.graph[node1].append((node2, power_min, dist))
+            
         else:
             key, value = node1, (node2, power_min, dist)
             self.graph[key] = [value]
+            
         if node2 in self.graph.keys():
             self.graph[node2].append((node1, power_min, dist))
         else:
             key, value = node2, (node1, power_min, dist)
             self.graph[key] = [value]
-        return self.graph    
-    
+            
+        return self.graph
 
     def get_path_with_power(self, src, dest, power):
         raise NotImplementedError
     
-
     def connected_components(self):
-        raise NotImplementedError
+        liste_composantes = []
+        visited_node = {node : False for node in self.nodes}
 
-
+        def parcours_profondeur(node):
+            composante = [node]
+            for voisin in self.graph[node]:
+                voisin = voisin[0]
+                if not visited_node[voisin]:
+                    visited_node[voisin] = True
+                    composante += parcours_profondeur(voisin)
+            return composante
+        for node in self.nodes:
+            if not visited_node[node]:
+                liste_composantes.append(parcours_profondeur(node))
+        return liste_composantes
+        
     def connected_components_set(self):
         """
         The result should be a set of frozensets (one per component), 
