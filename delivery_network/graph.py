@@ -58,7 +58,25 @@ class Graph:
         return self.graph
 
     def get_path_with_power(self, src, dest, power):
-        raise NotImplementedError
+        chemin =[src]
+        visited_node = {node : False for node in self.nodes}
+        visited_node[src]=True
+
+        def parcours_profondeur(node, chemin):
+            
+            for voisin in self.graph[node]:
+                if voisin[1] <= power and not visited_node[voisin[0]]:
+                    visited_node[voisin[0]]=True
+
+                    if voisin[0] == dest:
+
+                        return chemin+[dest]
+                    else:
+                        return parcours_profondeur(voisin[0], chemin+[voisin[0]])
+            return None  
+
+        res = parcours_profondeur(src, chemin)
+        return  res
     
     def connected_components(self):
         liste_composantes = []
@@ -91,7 +109,7 @@ class Graph:
         raise NotImplementedError
 
 
-def graph_from_file(filename):
+def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du type de la classe graph
     """
     Reads a text file and returns the graph as an object of the Graph class.
 
@@ -128,3 +146,4 @@ def graph_from_file(filename):
             else:
                 G.add_edge(node1, node2, power_min)
     return G
+
