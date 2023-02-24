@@ -106,7 +106,36 @@ class Graph:
         """
         Should return path, min_power. 
         """
-        raise NotImplementedError
+        #on fait une recherche dichotomique sur la puissance
+
+        puissances=[]#initialisation de la liste des puissances
+        for node in self.nodes:#Création de la liste des puissances en parcourant toutes les arrêtes du graphe
+            for e in self.graph[node]:
+                puissances.append(e[1])
+        puissances.sort()#tri de la liste
+        set(puissances)
+        puissances_unique = list(set(puissances))#on enlève les doublons
+        #recherche dichotomique du chemin le plus économique en puissance
+        a=0
+        b=len(puissances_unique)
+        m=(a+b)//2
+        
+        while a<b :
+            if get_path_with_power(self, src, dest, puissances_unique[m])==None :
+                a=m
+            
+            else :
+                b=m
+            m=(a+b)//2
+        chemin_eco=get_path_with_power(self, src, dest, puissances_unique[m])
+        return (m,chemin_eco)
+
+
+
+        
+
+
+
 
 
 def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du type de la classe graph
@@ -146,4 +175,5 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
             else:
                 G.add_edge(node1, node2, power_min)
     return G
+
 
