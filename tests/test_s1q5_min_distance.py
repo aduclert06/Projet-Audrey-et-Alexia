@@ -1,13 +1,11 @@
-# À compléter
-
 import sys 
 sys.path.append("delivery_network")
 
-from graph import Graph, graph_from_file
+from graph import Graph, get_path_with_power, min_power
 
 import unittest   # The test framework
 
-class Test_Reachability(unittest.TestCase):
+class Test_min_distance(unittest.TestCase):
     def test_network0(self):
         g = graph_from_file("input/network.00.in")
         self.assertEqual(g.get_path_with_power(1, 4, 11), [1, 2, 3, 4])
@@ -15,9 +13,8 @@ class Test_Reachability(unittest.TestCase):
 
     def test_network2(self):
         g = graph_from_file("input/network.02.in")
-        self.assertIn(g.min_power(1, 2, 11), [[1, 2], [1, 4, 3, 2]])
+        self.assertIn(g.get_path_with_power(1, 2, 11), [[1, 2], [1, 4, 3, 2]])
         self.assertEqual(g.get_path_with_power(1, 2, 5), [1, 4, 3, 2])
 
 if __name__ == '__main__':
     unittest.main()
-
