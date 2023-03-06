@@ -40,6 +40,7 @@ class Graph:
         return output
     
     def add_edge(self, node1, node2, power_min, dist=1):
+        self.nb_edges +=1
         
 
         if node1 in self.graph.keys(): #on regarde si le noeud 1 est dans le dictionnaire (c'est-à-dire le graphe)    
@@ -171,7 +172,7 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
             node1=int(lignei[0]) # Premier noeud à relier 
             node2=int(lignei[1]) # Second noeud à relier
             power_min=int(lignei[2]) # Puissance de l'arrête
-            if len(lignei)>3:
+            if len(lignei)>3: # cas où il y a une distance d'une arrête
                 dist=int(lignei[3]) # Distance de l'arête 
                 G.add_edge(node1, node2, power_min, dist)
             else:
