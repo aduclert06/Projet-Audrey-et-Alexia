@@ -161,7 +161,7 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
     G: Graph
         An object of the class Graph with the graph from file_name.
     """
-    with open(filename) as file:
+    with open(filename) as file: #on ouvre le fichier
         ligne1=file.readline().split()
         n=int(ligne1[0])
         m=int(ligne1[1])
