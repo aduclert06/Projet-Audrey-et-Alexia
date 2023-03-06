@@ -42,14 +42,15 @@ class Graph:
     def add_edge(self, node1, node2, power_min, dist=1):
         
 
-        if node1 in self.graph.keys():
-            self.graph[node1].append((node2, power_min, dist))
+        if node1 in self.graph.keys(): #on regarde si le noeud 1 est dans le dictionnaire (c'est-à-dire le graphe)    
+             self.graph[node1].append((node2, power_min, dist))#s'il y est on complète le dictionnaire en ajoutant l'arrêtre entre 1 et 2 à la clé correspondante
+                
             
         else:
-            key, value = node1, (node2, power_min, dist)
-            self.graph[key] = [value]
+            key, value = node1, (node2, power_min, dist)#sinon on crée une nouvelle clé avec le noeud 1
+            self.graph[key] = [value]#et on ajoute l'arrêt
             
-        if node2 in self.graph.keys():
+        if node2 in self.graph.keys():#on fait de même pour le noeud 2
             self.graph[node2].append((node1, power_min, dist))
         else:
             key, value = node2, (node1, power_min, dist)
@@ -58,41 +59,42 @@ class Graph:
         return self.graph
 
     def get_path_with_power(self, src, dest, power):
-        chemin =[src]
-        visited_node = {node : False for node in self.nodes}
-        visited_node[src]=True
+        chemin =[src]#on initialise le chemin par son début qui est la source, src
+        #pour ce programme on reprend le principe du parcours en profondeur des composantes connexes, auquel on va ajouter la condition de puissance
+        visited_node = {node : False for node in self.nodes}#on crée un dictionnaire notifiant le statut des noeuds(visité ou non)
+        visited_node[src]=True#le départ, src est forcément visité donc on le met en TRUE
 
-        def parcours_profondeur(node, chemin):
+        def parcours_profondeur(node, chemin):#on fait une fonction récursive pour voir s'il l'on peut rejoindre la destination avec la puissance donnée sur le principe du parcours en profondeur
             
-            for voisin in self.graph[node]:
-                if voisin[1] <= power and not visited_node[voisin[0]]:
-                    visited_node[voisin[0]]=True
+            for voisin in self.graph[node]:#on regarde les voisins du noeud
+                if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
+                    visited_node[voisin[0]]=True#on marque que le noeud a été visité
 
-                    if voisin[0] == dest:
+                    if voisin[0] == dest:#si ce dernier est la destination alors on a trouvé un chemin
 
-                        return chemin+[dest]
+                        return chemin+[dest]#si c'est le cas alors on renvoie le chemin trouvé
                     else:
-                        return parcours_profondeur(voisin[0], chemin+[voisin[0]])
-            return None  
+                        return parcours_profondeur(voisin[0], chemin+[voisin[0]])#sinon on continue l'exploration en profondeur, en ajoutant le voisin au chemin potentiel
+            return None  #s'il ne trouve pas de chemin, on renvoie NONE
 
-        res = parcours_profondeur(src, chemin)
+        res = parcours_profondeur(src, chemin)#sinon on renvoie le premier chemin trouvé
         return  res
     
     def connected_components(self):
-        liste_composantes = []
-        visited_node = {node : False for node in self.nodes}
+        liste_composantes = []#On crée la liste vide des composante, que l'on va compléter au long du programme
+        visited_node = {node : False for node in self.nodes}#on crée un dictionnaire qui indique si un noeud a été visité ou non
 
-        def parcours_profondeur(node):
-            composante = [node]
-            for voisin in self.graph[node]:
+        def parcours_profondeur(node):#on crée une fonction récurvise qui va parcourir toute la composante connexe
+            composante = [node]#La composante est constitué d'un premier noeud
+            for voisin in self.graph[node]:#on va visiter les voisins de ce noeud
                 voisin = voisin[0]
-                if not visited_node[voisin]:
-                    visited_node[voisin] = True
-                    composante += parcours_profondeur(voisin)
-            return composante
-        for node in self.nodes:
+                if not visited_node[voisin]:#si le noeud n'a pas déjà été visité
+                    visited_node[voisin] = True#on change son statut comme visité
+                    composante += parcours_profondeur(voisin)#on va regarder les voisins de ce noeud, que l'on ajoute de manière récursive à la composante connexe
+            return composante #on renvoie la composante
+        for node in self.nodes: #on applique le parcours le parcours en profondeur à tous les noeuds du graphe pour trouver les compposantes connexes
             if not visited_node[node]:
-                liste_composantes.append(parcours_profondeur(node))
+                liste_composantes.append(parcours_profondeur(node))#on ajoute les composantes connexes à la liste des composantes
         return liste_composantes
         
     def connected_components_set(self):
@@ -162,15 +164,15 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
         ligne1=file.readline().split()
         n=int(ligne1[0])
         m=int(ligne1[1])
-        nodes = [i for i in range(1, n+1)]
+        nodes=[i for i in range(1, n+1)]
         G=Graph(nodes)
         for i in range(m):
-            lignei=file.readline().split()
-            node1=int(lignei[0])
-            node2=int(lignei[1])
-            power_min=int(lignei[2])
+            lignei=file.readline().split() # i eme ligne du fichier file 
+            node1=int(lignei[0]) # Premier noeud à relier 
+            node2=int(lignei[1]) # Second noeud à relier
+            power_min=int(lignei[2]) # Puissance de l'arrête
             if len(lignei)>3:
-                dist=int(lignei[3])
+                dist=int(lignei[3]) # Distance de l'arête 
                 G.add_edge(node1, node2, power_min, dist)
             else:
                 G.add_edge(node1, node2, power_min)
