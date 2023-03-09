@@ -13,7 +13,7 @@ class Test_MinimalPower(unittest.TestCase):
         import main
         main.kruskal(g)
         
-        self.assertEqual(kruskal(g),{1:[(4,4)], 4: [(3,4), (1,4)], 3: [(4,4), (2,4)], 2: (3,4)})
+        self.assertEqual(main.kruskal(g),{1:[(4,4)], 4: [(3,4), (1,4)], 3: [(4,4), (2,4)], 2: (3,4)})
 
     
 

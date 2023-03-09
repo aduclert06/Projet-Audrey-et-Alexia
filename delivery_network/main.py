@@ -1,4 +1,4 @@
-from graph import Graph, graph_from_file, add_edge
+from graph import Graph, graph_from_file
 
 
 data_path = "input/"
@@ -23,6 +23,7 @@ def kruskal(g):
         for e in g[node]:
             ar = e.insert(0,node) #on crée l'arête de la forme (noeud1, noeud2, power, dist)
             aretes.append(ar)# on ajoute l'arête à la liste des arêtes
+            
     aretes.sort(key=lambda x : x[1])#tri de la liste
 
     #En triant les arêtes par puissance, on est sûr de tester les arêtes donnant l'arbre couvrant minimum
@@ -50,10 +51,11 @@ def kruskal(g):
             parent[parent_n1] = parent_n2 #donc l'ensemble 1 a maintenant pour parent le parent de l'ensemble 2
             
         mst_edges.append(ar)
+        
     g_mst = Graph(g.nodes())
 
     for i in range (0,len(mst_edges)):
-        ar=mst[i]
+        ar=mst_edge[i]
         a=ar[0]
         b=ar[1]
         p=ar[2] #puissance de l'arête
