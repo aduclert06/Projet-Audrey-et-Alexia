@@ -66,9 +66,12 @@ class Graph:
         visited_node[src]=True#le départ, src est forcément visité donc on le met en TRUE
 
         def parcours_profondeur(node, chemin):#on fait une fonction récursive pour voir s'il l'on peut rejoindre la destination avec la puissance donnée sur le principe du parcours en profondeur
-            
+            print(self.graph[node])
             for voisin in self.graph[node]:#on regarde les voisins du noeud
+                print(voisin)
                 if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
+                    print(voisin[1])
+                    
                     visited_node[voisin[0]]=True#on marque que le noeud a été visité
 
                     if voisin[0] == dest:#si ce dernier est la destination alors on a trouvé un chemin
@@ -113,7 +116,7 @@ class Graph:
 
         puissances=[]#initialisation de la liste des puissances
         for node in self.nodes:#Création de la liste des puissances en parcourant toutes les arrêtes du graphe
-            for e in self.graph[node]:
+            for e in self.graph[node] :
                 puissances.append(e[1])
         puissances.sort()#tri de la liste
         set(puissances)
