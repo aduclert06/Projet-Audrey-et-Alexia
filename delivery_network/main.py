@@ -20,8 +20,8 @@ def kruskal(g):
     aretes=[]#initialisation de la liste des puissances
     
     for node in g.nodes:#Création de la liste des puissances en parcourant toutes les arrêtes du graphe
-        for e in g[node]:
-            ar = e.insert(0,node) #on crée l'arête de la forme (noeud1, noeud2, power, dist)
+        for e in g.graph[node]:
+            ar = (node,) + e #on crée l'arête de la forme (noeud1, noeud2, power, dist)
             aretes.append(ar)# on ajoute l'arête à la liste des arêtes
             
     aretes.sort(key=lambda x : x[1])#tri de la liste
@@ -52,10 +52,10 @@ def kruskal(g):
             
         mst_edges.append(ar)
         
-    g_mst = Graph(g.nodes())
+    g_mst = Graph(g.nodes)
 
     for i in range (0,len(mst_edges)):
-        ar=mst_edge[i]
+        ar=mst_edges[i]
         a=ar[0]
         b=ar[1]
         p=ar[2] #puissance de l'arête
