@@ -58,6 +58,22 @@ class Graph:
             self.graph[key] = [value]
             
         return self.graph
+    
+    def parcours_profondeur(self, node, chemin, dest, power, visited_node):#on fait une fonction récursive pour voir s'il l'on peut rejoindre la destination avec la puissance donnée sur le principe du parcours en profondeur
+            
+            if  node == dest :
+                return chemin
+
+            for voisin in self.graph[node]:#on regarde les voisins du noeud
+                
+                if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
+                    
+                    visited_node[voisin[0]]=True#on marque que le noeud a été visité
+                        
+                    resultat = self.parcours_profondeur(voisin[0], chemin+[voisin[0]], dest, power, visited_node)#sinon on continue l'exploration en profondeur, en ajoutant le voisin au chemin potentiel
+                    if resultat is not None:
+                        return resultat
+            return None  #s'il ne trouve pas de chemin, on renvoie NONE
 
     def get_path_with_power(self, src, dest, power):
         chemin =[src]#on initialise le chemin par son début qui est la source, src
@@ -65,23 +81,7 @@ class Graph:
         visited_node = {node : False for node in self.nodes}#on crée un dictionnaire notifiant le statut des noeuds(visité ou non)
         visited_node[src]=True#le départ, src est forcément visité donc on le met en TRUE
 
-        def parcours_profondeur(node, chemin):#on fait une fonction récursive pour voir s'il l'on peut rejoindre la destination avec la puissance donnée sur le principe du parcours en profondeur
-            print(self.graph[node])
-            for voisin in self.graph[node]:#on regarde les voisins du noeud
-                print(voisin)
-                if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
-                    print(voisin[1])
-                    
-                    visited_node[voisin[0]]=True#on marque que le noeud a été visité
-
-                    if voisin[0] == dest:#si ce dernier est la destination alors on a trouvé un chemin
-
-                        return chemin+[dest]#si c'est le cas alors on renvoie le chemin trouvé
-                    else:
-                        return parcours_profondeur(voisin[0], chemin+[voisin[0]])#sinon on continue l'exploration en profondeur, en ajoutant le voisin au chemin potentiel
-            return None  #s'il ne trouve pas de chemin, on renvoie NONE
-
-        res = parcours_profondeur(src, chemin)#sinon on renvoie le premier chemin trouvé
+        res = self.parcours_profondeur(src, chemin, dest, power, visited_node)#sinon on renvoie le premier chemin trouvé
         return  res
     
     def connected_components(self):
@@ -128,11 +128,10 @@ class Graph:
         m=(a+b)//2
         print (m)
         
-        while a<b :
+        while a<=b :
             p_tmp=puissances_unique[m]
             p_ant=puissances_unique[m-1]
             print(p_tmp)
-            print(self.get_path_with_power(src, dest, p_tmp))
             if self.get_path_with_power(src, dest, p_tmp)==None :
                 a=m+1
             elif self.get_path_with_power(src, dest, p_ant)==None :
@@ -142,14 +141,12 @@ class Graph:
                 b=m-1
             m=(a+b)//2
             print(m, a, b)
+
         chemin_eco=self.get_path_with_power(src, dest, p_tmp)
         p_min=p_tmp
         return (chemin_eco, p_min)
 
-
-
-        
-
+    
 
 
 
