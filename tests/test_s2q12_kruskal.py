@@ -7,6 +7,9 @@ import unittest   # The test framework
 
 
 
+
+
+
 class Test_MinimalPower(unittest.TestCase):
     def test_network02(self):
         g = graph_from_file("input/network.02.in")

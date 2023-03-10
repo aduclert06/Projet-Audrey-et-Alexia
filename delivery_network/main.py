@@ -1,4 +1,5 @@
 #https://github.com/aduclert06/Projet-Audrey-et-Alexia.git
+import code
 from graph import Graph, graph_from_file
 
 
@@ -72,6 +73,38 @@ def kruskal(g):
     print("g_mst =", g_mst)
 
     return g_mst
+
+from time import perf_counter 
+from random import*
+
+
+def tmp_route(x):
+    num = str(x)
+    a= "input/network."+ num + ".in"
+
+    g = graph_from_file(a)
+    n=g.nb_nodes
+    tmps=0
+    
+    for i in range (0,5):
+        src=randint(1,n)
+        dest=randint(1,n)
+
+        debut = time.perf_counter()
+        g.min_power(src,dest)
+        fin = time.perf_counter()
+        tmp= debut - fin
+        tmps+=tmp
+    tmps_moy=tmps/5
+    return  tmps_moy
+
+code.interact(local=locals())
+
+
+
+
+
+
         
         
 
