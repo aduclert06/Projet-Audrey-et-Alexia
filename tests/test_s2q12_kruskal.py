@@ -12,9 +12,12 @@ class Test_MinimalPower(unittest.TestCase):
         g = graph_from_file("input/network.02.in")
         import main
         m= main.kruskal(g)
-        print('Hello')
-        print(m)
-        self.assertEqual(main.kruskal(g),{1:[(4,4)], 4: [(3,4), (1,4)], 3: [(4,4), (2,4)], 2: (3,4)})
+        a = main.kruskal(g)
+        #print(m)
+        self.assertEqual(
+            {node: set(a.graph[node]) for node in g.nodes},
+            {1:set([(4,4,1)]), 4: set([(3,4,1), (1,4,1)]), 3: set([(4,4,1), (2,4,1)]), 2: set([(3,4,1)]),5:set([]),6:set([]),7:set([]),8:set([]),9:set([]),10:set([])}
+        )
 
     
 

@@ -16,6 +16,7 @@ def find(parent, x):
 
 def kruskal(g):
     g_mst=Graph() #on initialise le graphe à renvoyer
+
     mst_edges=[]
 
     aretes=[]#initialisation de la liste des puissances
@@ -25,7 +26,8 @@ def kruskal(g):
             ar = (node,) + e #on crée l'arête de la forme (noeud1, noeud2, power, dist)
             aretes.append(ar)# on ajoute l'arête à la liste des arêtes
             
-    aretes.sort(key=lambda x : x[1])#tri de la liste
+    aretes.sort(key=lambda x : x[2])#tri de la liste
+    print(aretes)
 
     #En triant les arêtes par puissance, on est sûr de tester les arêtes donnant l'arbre couvrant minimum
 
@@ -50,10 +52,12 @@ def kruskal(g):
         if parent_n1 != parent_n2 :
             #S'ils n'appartiennent au  même sous ensemble, on fusionne ces ensembles
             parent[parent_n1] = parent_n2 #donc l'ensemble 1 a maintenant pour parent le parent de l'ensemble 2
-            
-        mst_edges.append(ar)
-        
+            mst_edges.append(ar)
+
+    
+    print("mst_edges =",  mst_edges)    
     g_mst = Graph(g.nodes)
+    print("len mst",len(mst_edges))
 
     for i in range (0,len(mst_edges)):
         ar=mst_edges[i]
@@ -62,7 +66,10 @@ def kruskal(g):
         p=ar[2] #puissance de l'arête
         if len(ar)>3:#si l'arête a une puissance, on l'ajoute
             dist=ar[3]
-        g_mst.add_edge(a, b , p, dist)
+            g_mst.add_edge(a, b , p, dist)
+        else :
+            g_mst.add_edge(a, b , p)
+    print("g_mst =", g_mst)
 
     return g_mst
         
