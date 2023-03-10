@@ -118,13 +118,15 @@ class Graph:
         for node in self.nodes:#Création de la liste des puissances en parcourant toutes les arrêtes du graphe
             for e in self.graph[node] :
                 puissances.append(e[1])
-        puissances.sort()#tri de la liste
+        
         set(puissances)
+        print(puissances)
         puissances_unique = list(set(puissances))#on enlève les doublons
         #recherche dichotomique du chemin le plus économique en puissance
+        puissances_unique.sort()#tri de la liste
         print(puissances_unique)
         a=0
-        b=len(puissances_unique)
+        b=len(puissances_unique)-1
         m=(a+b)//2
         print (m)
         
