@@ -131,3 +131,25 @@ def kruskal(g):
     
 
     return g_mst
+
+'''On code les fonctions pour trouver le plus court chemin dans un arbre minimal couvrant obtenu avec kruskal'''
+
+#on code une fonction qui calcule les parents et les profondeurs des noeuds de l'arbre
+
+def profondeur(node, prof, parent, g, profondeurs, parents):
+        profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
+        parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
+
+        for voisin in g.nodes :
+            if voisin != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
+                profondeur(voisin, prof +1, node, g, profondeurs, parents)#on réitère donc la fonction en prenant pour
+                #nouveau parent, le noeud voisin, on s'enfonce dans l'arbre, donc on augmente la profondeur de 1
+
+#on code une fonction qui renvoie 2 dictionnaires dont les clefs sont les noeuds de l'arbre :
+#un dictionnaire des profondeurs et un dictionnaires des parents
+def parents_profondeurs(racine, g) :
+    profondeurs={} #on initialise
+    parents ={} # on initialise
+
+    profondeur(racine, 0, -1, g, profondeurs, parents) #par défault la racine à une profondeur de 0 et son parent est -1
+    return profondeurs, parents
