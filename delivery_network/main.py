@@ -153,3 +153,22 @@ def parents_profondeurs(racine, g) :
 
     profondeur(racine, 0, -1, g, profondeurs, parents) #par défault la racine à une profondeur de 0 et son parent est -1
     return profondeurs, parents
+
+def min_power2 (g, src, dest):
+    g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
+    print(g_mst)
+    chemin=[src]
+    profondeurs, parents = parents_profondeurs(dest,g)
+    p_src = profondeurs[src]
+    for i in range (p_src):
+        chemin.append(parents[src])
+        src= parents[src]
+
+    return chemin
+
+network = "input/network.00.in"
+g1 = g = graph_from_file(network)
+
+print(min_power2(g1,3,9))
+
+
