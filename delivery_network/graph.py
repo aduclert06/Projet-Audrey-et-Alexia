@@ -124,16 +124,14 @@ class Graph:
         puissances_unique = list(set(puissances))#on enlève les doublons
         #recherche dichotomique du chemin le plus économique en puissance
         puissances_unique.sort()#tri de la liste
-        print(puissances_unique)
         a=0
         b=len(puissances_unique)-1
         m=(a+b)//2
-        print (m)
         
         while a<=b :
             p_tmp=puissances_unique[m]
             p_ant=puissances_unique[m-1]
-            print(p_tmp)
+            
             if self.get_path_with_power(src, dest, p_tmp)==None :
                 a=m+1
             elif self.get_path_with_power(src, dest, p_ant)==None :
@@ -142,7 +140,6 @@ class Graph:
             else:
                 b=m-1
             m=(a+b)//2
-            print(m, a, b)
 
         chemin_eco=self.get_path_with_power(src, dest, p_tmp)
         p_min=p_tmp
