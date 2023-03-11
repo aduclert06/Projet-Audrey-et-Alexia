@@ -74,30 +74,139 @@ def kruskal(g):
 
     return g_mst
 
+
 from time import*
-from random import*
+
+'''on estime le temps nécessaire pour calculer (à l’aide du code développé dans la séance 1) la
+#puissance minimale (et le chemin associé) sur l’ensemble des trajets pour chacun des fichiers routes.x.in
+#donnés.'''
+
+######fichier routes 1######
+ 
+filename="input/routes.1.in"
+network = "input/network.1.in"
+
+with open(filename) as file: #on ouvre le fichier
+        ligne1=file.readline().split()
+        nb_trajets1=int(ligne1[0])
+        
+        
+        ligne2=file.readline().split() # i eme ligne du fichier file 
+        src2=int(ligne2[0]) # Premier noeud à relier 
+        dest2=int(ligne2[1]) # Second noeud à relier
+
+        ligne3=file.readline().split() # i eme ligne du fichier file 
+        src3=int(ligne2[0]) # Premier noeud à relier 
+        dest3=int(ligne2[1]) # Second noeud à relier
+
+        ligne4=file.readline().split() # i eme ligne du fichier file 
+        src4=int(ligne2[0]) # Premier noeud à relier 
+        dest4=int(ligne2[1]) # Second noeud à relier
 
 
-def tmp_route(x):
-    num = str(x)
-    a= "input/routes." + num + ".in"
 
-    g = graph_from_file(a)
-    n=g.nb_nodes
-    tmps=0
+g = graph_from_file(network)
+
+debut = perf_counter()
+g.min_power(src2,dest2)
+fin = perf_counter()
+tmp2= fin - debut
+print(tmp2)
+
+debut = perf_counter()
+g.min_power(src3,dest3)
+fin = perf_counter()
+tmp3= fin - debut
+
+debut = perf_counter()
+g.min_power(src4,dest4)
+fin = perf_counter()
+tmp4= fin - debut
+
+tmp_moy = (tmp2 + tmp3 +tmp4)/3
+temps_routes1 = tmp_moy*nb_trajets1
+
+print ("Le temps pour calculer l'ensemble des trajets du fichier routes 1 est", temps_routes1)
+
+######fichier routes 2######
+def temps(x):
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
+
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
+
+            ligne4=file.readline().split() # i eme ligne du fichier file 
+            src4=int(ligne2[0]) # Premier noeud à relier 
+            dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+
+    debut2 = perf_counter()
+    g.min_power(src2,dest2)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2
+
+
+    debut3 = perf_counter()
+    g.min_power(src3,dest3)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
     
-    src=randint(1,n)
-    dest=randint(1,n)
 
-    debut = perf_counter()
-    g.min_power(src,dest)
-    fin = perf_counter()
-    tmp= fin - debut
-    tmps+=tmp
-    tmps_moy=tmps/5
-    return  tmps_moy
+    debut4 = perf_counter()
+    g.min_power(src4,dest4)
+    fin4 = perf_counter()
+    tmp4= fin4 - debut4
 
-print("temps=", tmp_route(1))
+    tmp_moy = (tmp2 + tmp3 +tmp4)/3
+    temps_routes = tmp_moy*nb_trajets
+
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes", str(x), "est", temps_routes, "s")
+
+
+
+for x in range (1,11):
+    print(temps(x))
+
+
+            
+        
+
+
+#def tmp_route(x):
+    #num = str(x)
+    #a= "input/routes." + num + ".in"
+
+    #g = graph_from_file(a)
+    #n=g.nb_nodes
+    #tmps=0
+    
+    #src=randint(1,n)
+    #dest=randint(1,n)
+
+    #debut = perf_counter()
+    #g.min_power(src,dest)
+    #fin = perf_counter()
+    #tmp= fin - debut
+    #mps+=tmp
+    #tmps_moy=tmps/5
+    #return  tmps_moy
+
+#print("temps=", tmp_route(1))
 
 
 

@@ -11,7 +11,7 @@ class Test_GraphLoading(unittest.TestCase):
         self.assertEqual(g.nb_nodes, 10)
         self.assertEqual(g.nb_edges, 9)
 
-    def test_network1(self):
+    def test_network01(self):
         g = graph_from_file("input/network.01.in")
         self.assertEqual(g.nb_nodes, 7)
         self.assertEqual(g.nb_edges, 5)
@@ -21,6 +21,11 @@ class Test_GraphLoading(unittest.TestCase):
         self.assertEqual(g.nb_nodes, 10)
         self.assertEqual(g.nb_edges, 4)
         self.assertEqual(g.graph[1][0][2], 6)
+    
+    def test_network1(self):
+        g = graph_from_file("input/network.1.in")
+        self.assertEqual(g.nb_nodes, 20)
+        self.assertEqual(g.nb_edges, 100)
 
 if __name__ == '__main__':
     unittest.main()
