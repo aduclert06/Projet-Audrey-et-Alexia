@@ -78,7 +78,7 @@ def kruskal(g):
 
     mst_edges=[]
 
-    aretes=[]#initialisation de la liste des puissances
+    aretes=[]#initialisation de la liste des aretes
     
     for node in g.nodes:#Création de la liste des puissances en parcourant toutes les arrêtes du graphe
         for e in g.graph[node]:
@@ -132,6 +132,8 @@ def kruskal(g):
 
     return g_mst
 
+
+
 '''On code les fonctions pour trouver le plus court chemin dans un arbre minimal couvrant obtenu avec kruskal'''
 
 #on code une fonction qui calcule les parents et les profondeurs des noeuds de l'arbre
@@ -139,7 +141,7 @@ def kruskal(g):
 def profondeur(node, prof, parent, g, profondeurs, parents):
         profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
         parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
-        print(parents)
+        #print(parents)
 
         for voisin in g.graph[node] :
             if voisin[0] != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
@@ -155,9 +157,9 @@ def parents_profondeurs(racine, g) :
     profondeur(racine, 0, -1, g, profondeurs, parents) #par défault la racine à une profondeur de 0 et son parent est -1
     return profondeurs, parents
 
-def min_power2 (g, src, dest):
-    g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
-    print(g_mst)
+def min_power2 (g_mst, src, dest):
+    #g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
+    #print(g_mst)
     chemin=[src]
     profondeurs, parents = parents_profondeurs(dest,g_mst)
     p_src = profondeurs[src]
@@ -167,17 +169,67 @@ def min_power2 (g, src, dest):
 
     return chemin
 
-network = "input/network.1.in"
+network = "input/network.02.in"
 g1 = g = graph_from_file(network)
+g2=kruskal(g1)
 
-print(min_power2(g1,2,8))
+#print(min_power2(g1,2,8))
 
-
+#print(g1)
+#print(kruskal(g1))
 
 ''' On reprend les estimations de temps de la question 10'''
 
 
 ######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
+def temps2bis(x):
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
+
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
+
+            #ligne4=file.readline().split() # i eme ligne du fichier file 
+            #src4=int(ligne2[0]) # Premier noeud à relier 
+            #dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+    g1=kruskal(g)
+
+    debut2 = perf_counter()
+    min_power2(g1,src2,dest2)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2#
+
+
+    debut3 = perf_counter()
+    min_power2(g1,src3,dest3)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
+    
+
+    #debut4 = perf_counter()
+    #min_power2(g1, src4,dest4)
+    #fin4 = perf_counter()
+    #tmp4= fin4 - debut4
+
+    tmp_moy = (tmp2 + tmp3 )/2
+    temps_routes = tmp_moy*nb_trajets
+    return(temps_routes)
+
 def temps2(x):
 
     filename="input/routes."+ str(x) + ".in"
@@ -203,28 +255,51 @@ def temps2(x):
 
 
     g = graph_from_file(network)
+    g1=kruskal(g)
 
     debut2 = perf_counter()
-    min_power2(g,src2,dest2)
+    min_power2(g1,src2,dest2)
     fin2 = perf_counter()
     tmp2= fin2 - debut2#
 
 
     debut3 = perf_counter()
-    min_power2(g,src3,dest3)
+    min_power2(g1,src3,dest3)
     fin3 = perf_counter()
     tmp3= fin3 - debut3
     
 
     debut4 = perf_counter()
-    min_power2(g, src4,dest4)
+    min_power2(g1, src4,dest4)
     fin4 = perf_counter()
     tmp4= fin4 - debut4
 
     tmp_moy = (tmp2 + tmp3 +tmp4)/3
     temps_routes = tmp_moy*nb_trajets
 
-    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la dexième fonction", str(x), "est", temps_routes, "s")
+    #"Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",
+    #"s"
 
-#print(temps2(2))
-#print(temps(2))
+
+    return (temps_routes)
+
+def calcul(x) :
+    t2=temps2bis(x)
+    t3=temps2(x)
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+    a = (6/(nb_trajets)*(t2-t3)+3*t3-2*t2)
+
+    return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
+
+def ioka(x):
+    print(temps(x))
+    print(temps2(x))
+    print(calcul(x))
+
+print(ioka(2))
