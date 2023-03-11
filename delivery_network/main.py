@@ -139,10 +139,11 @@ def kruskal(g):
 def profondeur(node, prof, parent, g, profondeurs, parents):
         profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
         parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
+        print(parents)
 
-        for voisin in g.nodes :
-            if voisin != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
-                profondeur(voisin, prof +1, node, g, profondeurs, parents)#on réitère donc la fonction en prenant pour
+        for voisin in g.graph[node] :
+            if voisin[0] != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
+                profondeur(voisin[0], prof +1, node, g, profondeurs, parents)#on réitère donc la fonction en prenant pour
                 #nouveau parent, le noeud voisin, on s'enfonce dans l'arbre, donc on augmente la profondeur de 1
 
 #on code une fonction qui renvoie 2 dictionnaires dont les clefs sont les noeuds de l'arbre :
