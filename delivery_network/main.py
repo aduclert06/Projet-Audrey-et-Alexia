@@ -302,4 +302,4 @@ def ioka(x):
     print(temps2(x))
     print(calcul(x))
 
-print(ioka(2))
+#print(ioka(2))
