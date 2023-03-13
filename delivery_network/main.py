@@ -157,6 +157,7 @@ def parents_profondeurs(racine, g) :
     profondeur(racine, 0, -1, g, profondeurs, parents) #par défault la racine à une profondeur de 0 et son parent est -1
     return profondeurs, parents
 
+
 def min_power2 (g_mst, src, dest):
     #g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
     #print(g_mst)
@@ -169,11 +170,53 @@ def min_power2 (g_mst, src, dest):
 
     return chemin
 
-network = "input/network.02.in"
+''' On essaye d'optimiser min_power2 qui nous donne un résultat en 2h'''
+
+def min_power3(src, dest, g_mst, parents, profondeurs):
+    chemin1=[src]
+    chemin2=[dest]
+    chemin=[]
+    prof_dest= profondeurs[dest]
+    prof_src= profondeurs[src]
+    
+
+    if prof_src>prof_dest :
+        while prof_src!= prof_dest :
+            src=parents[src]
+            prof_src = profondeurs[src]
+            chemin1.append(src)
+
+    if prof_dest>prof_src :
+        while prof_src!= prof_dest :
+            dest=parents[dest]
+            prof_dest = profondeurs[dest]
+            chemin2.append(dest)
+    else  :
+        while parents[src]!=parents[dest]:
+            src=parents[src]
+            dest=parents[dest]
+            chemin1.append(src)
+            chemin2.append(dest)
+        chemin1.append(parents[src])
+    
+        
+
+        chemin2.reverse()
+        chemin = chemin + chemin1 + chemin2
+    
+    return chemin
+
+'''Données pour tester min_power3'''
+
+network = "input/network.00.in"
 g1 = g = graph_from_file(network)
 g2=kruskal(g1)
+po, pa = parents_profondeurs(1, g1)
+#print(po,pa)
+#print(po[3])
 
-#print(min_power2(g1,2,8))
+print(min_power2(g1,3,8))
+print(min_power3(3, 8, g2, pa, po))
 
 #print(g1)
 #print(kruskal(g1))
@@ -181,7 +224,7 @@ g2=kruskal(g1)
 ''' On reprend les estimations de temps de la question 10'''
 
 
-######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
+######fOn définit une fonction qu'on peut appliquer à chaque fichier routes qui nous permet d'avoir un système pour trouver le temps de Kruskal######
 def temps2bis(x):
 
     filename="input/routes."+ str(x) + ".in"
@@ -230,6 +273,7 @@ def temps2bis(x):
     temps_routes = tmp_moy*nb_trajets
     return(temps_routes)
 
+
 def temps2(x):
 
     filename="input/routes."+ str(x) + ".in"
@@ -277,15 +321,10 @@ def temps2(x):
     tmp_moy = (tmp2 + tmp3 +tmp4)/3
     temps_routes = tmp_moy*nb_trajets
 
-    #"Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",
-    #"s"
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",temps_routes, "s")
 
 
-    return (temps_routes)
-
-def calcul(x) :
-    t2=temps2bis(x)
-    t3=temps2(x)
+def temps3(x):
 
     filename="input/routes."+ str(x) + ".in"
     network = "input/network." + str(x)+ ".in"
@@ -293,13 +332,67 @@ def calcul(x) :
     with open(filename) as file: #on ouvre le fichier
             ligne1=file.readline().split()
             nb_trajets=int(ligne1[0])
-    a = (6/(nb_trajets)*(t2-t3)+3*t3-2*t2)
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
 
-    return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
 
-def ioka(x):
+            ligne4=file.readline().split() # i eme ligne du fichier file 
+            src4=int(ligne2[0]) # Premier noeud à relier 
+            dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+    g1=kruskal(g)
+    
+    po, pa = parents_profondeurs(1, g1)
+
+    debut2 = perf_counter()
+    min_power3(src2,dest2, g1, pa, po)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2#
+
+
+    debut3 = perf_counter()
+    min_power3(src3,dest3, g1, pa, po)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
+    
+
+    debut4 = perf_counter()
+    min_power3(src4,dest4, g1, pa, po)
+    fin4 = perf_counter()
+    tmp4= fin4 - debut4
+
+    tmp_moy = (tmp2 + tmp3 +tmp4)/3
+    temps_routes = tmp_moy*nb_trajets
+
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la troisième fonction", str(x), "est",temps_routes, "s")
+
+#def calcul(x) :
+    #t2=temps2bis(x)
+    #t3=temps2(x)
+
+    #filename="input/routes."+ str(x) + ".in"
+    #network = "input/network." + str(x)+ ".in"
+
+    #with open(filename) as file: #on ouvre le fichier
+            #ligne1=file.readline().split()
+            #nb_trajets=int(ligne1[0])
+    #a = (6/(nb_trajets)*(t2-t3)+3*t3-2*t2)
+
+    #return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
+
+def comparaison(x):
     print(temps(x))
     print(temps2(x))
-    print(calcul(x))
+    print(temps3(x))
+    #print(calcul(x))
 
-#print(ioka(2))
+print(comparaison(2))
