@@ -68,9 +68,10 @@ def temps(x):
 
 
 def find(parent, x):
-    while parent[x]!= x:
-        x=parent[x]
-    return x
+    if parent[x] != x:
+        parent[x]=find(parent, parent[x])
+    return parent[x]
+    
     
 
 def kruskal(g):
@@ -84,6 +85,7 @@ def kruskal(g):
         for e in g.graph[node]:
             ar = (node,) + e #on crée l'arête de la forme (noeud1, noeud2, power, dist)
             aretes.append(ar)# on ajoute l'arête à la liste des arêtes
+    #print(aretes)
             
     aretes.sort(key=lambda x : x[2])#tri de la liste
     
@@ -92,7 +94,12 @@ def kruskal(g):
 
     parent = list(range(g.nb_nodes)) #on initialise la liste représentant les sous-ensembles, chaque noeud est parent de lui-même à l'initialisation
 
+    compt=0 #un arbre a au max nb_nodes -1 arêtes, donc on ajoute une variable compteur
+
     for ar in aretes :
+        #compt +=1
+        #if compt == g.nb_nodes :
+           # break
         #l'objectif de la liste parent est d 'avoir un lien entre la position d'un noeud et le sous ensemble auquel il appartient, chaque sous-sensemble
         #est représenté par un noeud référent appelé parent.
         #On renome donc les noeuds pour que le nom du noeud à l'initialisation corresponde à son indice dans la liste parent
@@ -112,6 +119,7 @@ def kruskal(g):
             #S'ils n'appartiennent au  même sous ensemble, on fusionne ces ensembles
             parent[parent_n1] = parent_n2 #donc l'ensemble 1 a maintenant pour parent le parent de l'ensemble 2
             mst_edges.append(ar)
+    
 
     
        
@@ -213,7 +221,7 @@ g1 = g = graph_from_file(network)
 g2=kruskal(g1)
 po, pa = parents_profondeurs(1, g1)
 #print(po,pa)
-#print(po[3])
+print(po[3])
 
 print(min_power2(g1,3,8))
 print(min_power3(3, 8, g2, pa, po))
@@ -356,7 +364,7 @@ def temps3(x):
     debut2 = perf_counter()
     min_power3(src2,dest2, g1, pa, po)
     fin2 = perf_counter()
-    tmp2= fin2 - debut2#
+    tmp2= fin2 - debut2
 
 
     debut3 = perf_counter()
@@ -401,10 +409,6 @@ def temps_prof_pa(x):
 
 
 
-print(temps_krusk(4))
-
-
-
 
 #def calcul(x) :
     #t2=temps2bis(x)
@@ -421,9 +425,9 @@ print(temps_krusk(4))
     #return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
 
 def comparaison(x):
-    print(temps(x))
-    print(temps2bis(x))
+    #print(temps(x))
     print(temps3(x))
-    print(calcul(x))
+    #print(calcul(x))
 
-#print(comparaison(3))
+for i in range (1,10):
+    print(comparaison(i))
