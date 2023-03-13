@@ -4,14 +4,16 @@ from graph import Graph, graph_from_file
 from time import*
 from main import*
 
+''' Estimation de temps de la question 10'''
 
-''' On reprend les estimations de temps de la question 10'''
+'''on estime le temps nécessaire pour calculer (à l’aide du code développé dans la séance 1) la
+#puissance minimale (et le chemin associé) sur l’ensemble des trajets pour chacun des fichiers routes.x.in
+#donnés.'''
 
 
-'''On définit une fonction qu'on peut appliquer à chaque fichier routes qui 
-nous permet d'avoir un système pour trouver le temps de Kruskal'''
 
-def temps2bis(x):
+######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
+def temps(x):
 
     filename="input/routes."+ str(x) + ".in"
     network = "input/network." + str(x)+ ".in"
@@ -29,35 +31,47 @@ def temps2bis(x):
             src3=int(ligne2[0]) # Premier noeud à relier 
             dest3=int(ligne2[1]) # Second noeud à relier
 
-            #ligne4=file.readline().split() # i eme ligne du fichier file 
-            #src4=int(ligne2[0]) # Premier noeud à relier 
-            #dest4=int(ligne2[1]) # Second noeud à relier
+            ligne4=file.readline().split() # i eme ligne du fichier file 
+            src4=int(ligne2[0]) # Premier noeud à relier 
+            dest4=int(ligne2[1]) # Second noeud à relier
 
 
 
     g = graph_from_file(network)
-    g1=kruskal(g)
 
     debut2 = perf_counter()
-    min_power2(g1,src2,dest2)
+    g.min_power(src2,dest2)
     fin2 = perf_counter()
-    tmp2= fin2 - debut2#
+    tmp2= fin2 - debut2
 
 
     debut3 = perf_counter()
-    min_power2(g1,src3,dest3)
+    g.min_power(src3,dest3)
     fin3 = perf_counter()
     tmp3= fin3 - debut3
     
 
-    #debut4 = perf_counter()
-    #min_power2(g1, src4,dest4)
-    #fin4 = perf_counter()
-    #tmp4= fin4 - debut4
+    debut4 = perf_counter()
+    g.min_power(src4,dest4)
+    fin4 = perf_counter()
+    tmp4= fin4 - debut4
 
-    tmp_moy = (tmp2 + tmp3 )/2
+    tmp_moy = (tmp2 + tmp3 +tmp4)/3
     temps_routes = tmp_moy*nb_trajets
-    return(temps_routes)
+
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes", str(x), "est", temps_routes, "s")
+
+#print(temps(1))
+#print(temps(2))
+
+#on se rend compte sur les fichiers 1 et 2 qu'on a une durée de plusieurs heures, ce qui est trop long.
+#Pour les fichiers plus gros (routes 3,4...), python execute trop de récursions.
+#Il faut donc améliorer notre fonction min_power
+
+
+''' On reprend les estimations de temps de la question 10'''
+
+
 
 ''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la deuxième méthode'''
 
@@ -162,7 +176,7 @@ def temps3(x):
     tmp_moy = (tmp2 + tmp3 +tmp4)/3
     temps_routes = tmp_moy*nb_trajets
 
-    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la troisième fonction", str(x), "est",temps_routes, "s")
+    return (temps_routes)
 
 ''' On définit une fonction pour donner le temps d'éxecution de la fonction kruskal'''
 
@@ -190,27 +204,16 @@ def temps_kruskal_prof_par(x):
     fin = perf_counter()
     tmp = fin- debut
 
-    return("Le temps de parents_profondeurs est", tmp, "s")
+    return(tmp)
 
 
+def temps_total(x) :
+    tmpmin = temps3(x)
+    t_k_par_prof= temps_kruskal_prof_par(x)
+    total = tmpmin + t_k_par_prof
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes au total du fichier route", str(x), "est",total, "s")
 
-''' La fonction calcul permet de résoudre un sytème donnant le temps de kruskal'''
 
-
-
-#def calcul(x) :
-    #t2=temps2bis(x)
-    #t3=temps2(x)
-
-    #filename="input/routes."+ str(x) + ".in"
-    #network = "input/network." + str(x)+ ".in"
-
-    #with open(filename) as file: #on ouvre le fichier
-            #ligne1=file.readline().split()
-            #nb_trajets=int(ligne1[0])
-    #a = (6/(nb_trajets)*(t2-t3)+3*t3-2*t2)
-
-    #return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
 
 
 
@@ -218,9 +221,10 @@ def temps_kruskal_prof_par(x):
 
 def comparaison(x):
     #print(temps(x))
-    print(temps3(x))
+    #print(temps3(x))
     #print(calcul(x))
-    print(temps_kruskal_prof_par(x))
+    #print(temps_kruskal_prof_par(x))
+    print(temps_total(x))
 
 for i in range (1,10):
     print(comparaison(i))
