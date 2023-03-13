@@ -28,12 +28,12 @@ def temps(x):
             dest2=int(ligne2[1]) # Second noeud à relier
 
             ligne3=file.readline().split() # i eme ligne du fichier file 
-            src3=int(ligne2[0]) # Premier noeud à relier 
-            dest3=int(ligne2[1]) # Second noeud à relier
+            src3=int(ligne3[0]) # Premier noeud à relier 
+            dest3=int(ligne3[1]) # Second noeud à relier
 
             ligne4=file.readline().split() # i eme ligne du fichier file 
-            src4=int(ligne2[0]) # Premier noeud à relier 
-            dest4=int(ligne2[1]) # Second noeud à relier
+            src4=int(ligne4[0]) # Premier noeud à relier 
+            dest4=int(ligne4[1]) # Second noeud à relier
 
 
 
@@ -90,12 +90,12 @@ def temps2(x):
             dest2=int(ligne2[1]) # Second noeud à relier
 
             ligne3=file.readline().split() # i eme ligne du fichier file 
-            src3=int(ligne2[0]) # Premier noeud à relier 
-            dest3=int(ligne2[1]) # Second noeud à relier
+            src3=int(ligne3[0]) # Premier noeud à relier 
+            dest3=int(ligne3[1]) # Second noeud à relier
 
             ligne4=file.readline().split() # i eme ligne du fichier file 
-            src4=int(ligne2[0]) # Premier noeud à relier 
-            dest4=int(ligne2[1]) # Second noeud à relier
+            src4=int(ligne4[0]) # Premier noeud à relier 
+            dest4=int(ligne4[1]) # Second noeud à relier
 
 
 
@@ -125,7 +125,8 @@ def temps2(x):
     return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",temps_routes, "s")
 
 
-''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la troisième méthode'''
+''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la troisième méthode
+comme indiqué dans la séance 3'''
 
 def temps3(x):
 
@@ -140,14 +141,15 @@ def temps3(x):
             ligne2=file.readline().split() # i eme ligne du fichier file 
             src2=int(ligne2[0]) # Premier noeud à relier 
             dest2=int(ligne2[1]) # Second noeud à relier
+        
 
             ligne3=file.readline().split() # i eme ligne du fichier file 
-            src3=int(ligne2[0]) # Premier noeud à relier 
-            dest3=int(ligne2[1]) # Second noeud à relier
+            src3=int(ligne3[0]) # Premier noeud à relier 
+            dest3=int(ligne3[1]) # Second noeud à relier
 
             ligne4=file.readline().split() # i eme ligne du fichier file 
-            src4=int(ligne2[0]) # Premier noeud à relier 
-            dest4=int(ligne2[1]) # Second noeud à relier
+            src4=int(ligne4[0]) # Premier noeud à relier 
+            dest4=int(ligne4[1]) # Second noeud à relier
 
 
 
@@ -157,21 +159,24 @@ def temps3(x):
     po, pa = parents_profondeurs(1, g1)
 
     debut2 = perf_counter()
-    min_power3(src2,dest2, g1, pa, po)
+    a=min_power3(src2,dest2, g1, pa, po)
     fin2 = perf_counter()
     tmp2= fin2 - debut2
+    
 
 
     debut3 = perf_counter()
-    min_power3(src3,dest3, g1, pa, po)
+    b=min_power3(src3,dest3, g1, pa, po)
     fin3 = perf_counter()
     tmp3= fin3 - debut3
     
+    
 
     debut4 = perf_counter()
-    min_power3(src4,dest4, g1, pa, po)
+    c=min_power3(src4,dest4, g1, pa, po)
     fin4 = perf_counter()
     tmp4= fin4 - debut4
+    
 
     tmp_moy = (tmp2 + tmp3 +tmp4)/3
     temps_routes = tmp_moy*nb_trajets
@@ -224,7 +229,11 @@ def comparaison(x):
     #print(temps3(x))
     #print(calcul(x))
     #print(temps_kruskal_prof_par(x))
+    
     print(temps_total(x))
 
 for i in range (1,10):
     print(comparaison(i))
+
+'''Conclusion : On trouve un résultat de l'ordre de la minute'''
+

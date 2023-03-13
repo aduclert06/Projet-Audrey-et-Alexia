@@ -9,63 +9,6 @@ from time import*
 
 
 
-######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
-def temps(x):
-
-    filename="input/routes."+ str(x) + ".in"
-    network = "input/network." + str(x)+ ".in"
-
-    with open(filename) as file: #on ouvre le fichier
-            ligne1=file.readline().split()
-            nb_trajets=int(ligne1[0])
-        
-        
-            ligne2=file.readline().split() # i eme ligne du fichier file 
-            src2=int(ligne2[0]) # Premier noeud à relier 
-            dest2=int(ligne2[1]) # Second noeud à relier
-
-            ligne3=file.readline().split() # i eme ligne du fichier file 
-            src3=int(ligne2[0]) # Premier noeud à relier 
-            dest3=int(ligne2[1]) # Second noeud à relier
-
-            ligne4=file.readline().split() # i eme ligne du fichier file 
-            src4=int(ligne2[0]) # Premier noeud à relier 
-            dest4=int(ligne2[1]) # Second noeud à relier
-
-
-
-    g = graph_from_file(network)
-
-    debut2 = perf_counter()
-    g.min_power(src2,dest2)
-    fin2 = perf_counter()
-    tmp2= fin2 - debut2
-
-
-    debut3 = perf_counter()
-    g.min_power(src3,dest3)
-    fin3 = perf_counter()
-    tmp3= fin3 - debut3
-    
-
-    debut4 = perf_counter()
-    g.min_power(src4,dest4)
-    fin4 = perf_counter()
-    tmp4= fin4 - debut4
-
-    tmp_moy = (tmp2 + tmp3 +tmp4)/3
-    temps_routes = tmp_moy*nb_trajets
-
-    return ("Le temps pour calculer l'ensemble des trajets du fichier routes", str(x), "est", temps_routes, "s")
-
-#print(temps(1))
-#print(temps(2))
-
-#on se rend compte sur les fichiers 1b et 2 qu'on a une durée de plusieurs heures, ce qui est trop long.
-#Pour les fichiers plus gros (routes 3,4...), python execute trop de récursions.
-#Il faut donc améliorer notre fonction min_power
-
-
 
 def find(parent, x):
     if parent[x] != x:
@@ -212,18 +155,34 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
         chemin2.reverse()
         chemin = chemin + chemin1 + chemin2
     
-    return chemin
+    puissances = []
+    p_min = -1 #si on ne trouve pas de chemin, on renvoie une puissance négative
+
+    for i in range (len(chemin)-1):
+        key = chemin[i]
+        for e in g_mst.graph[key]:
+
+            if e[0]==chemin[i+1]:
+                puissances.append(e[1])
+    
+    if len(puissances)!=0 :
+        p_min=max(puissances)
+
+    
+    
+    return (chemin, p_min)
 
 '''Données pour tester min_power3'''
 
 network = "input/network.00.in"
 g1 = g = graph_from_file(network)
 g2=kruskal(g1)
+print(g2)
 po, pa = parents_profondeurs(1, g1)
 #print(po,pa)
-print(po[3])
+#print(po[3])
 
-print(min_power2(g1,3,8))
+#print(min_power2(g1,3,8))
 print(min_power3(3, 8, g2, pa, po))
 
 #print(g1)
