@@ -375,6 +375,37 @@ def temps3(x):
 
     return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la troisième fonction", str(x), "est",temps_routes, "s")
 
+def temps_krusk(x):
+    network = "input/network." + str(x)+ ".in"
+    g=graph_from_file(network)
+
+    debut = perf_counter()
+    kruskal(g)
+    fin = perf_counter()
+    tmp = fin- debut
+
+    return("Le temps de Kruskal est", tmp, "s")
+
+def temps_prof_pa(x):
+    network = "input/network." + str(x)+ ".in"
+    g=graph_from_file(network)
+
+    debut = perf_counter()
+    parents_profondeurs(1,g)
+    fin = perf_counter()
+    tmp = fin- debut
+
+    return("Le temps de parents_profondeurs est", tmp, "s")
+
+
+
+
+
+print(temps_krusk(4))
+
+
+
+
 #def calcul(x) :
     #t2=temps2bis(x)
     #t3=temps2(x)
@@ -391,8 +422,8 @@ def temps3(x):
 
 def comparaison(x):
     print(temps(x))
-    print(temps2(x))
+    print(temps2bis(x))
     print(temps3(x))
-    #print(calcul(x))
+    print(calcul(x))
 
-print(comparaison(2))
+#print(comparaison(3))
