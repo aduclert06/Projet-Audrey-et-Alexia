@@ -1,0 +1,226 @@
+
+
+from graph import Graph, graph_from_file
+from time import*
+from main import*
+
+
+''' On reprend les estimations de temps de la question 10'''
+
+
+'''On définit une fonction qu'on peut appliquer à chaque fichier routes qui 
+nous permet d'avoir un système pour trouver le temps de Kruskal'''
+
+def temps2bis(x):
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
+
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
+
+            #ligne4=file.readline().split() # i eme ligne du fichier file 
+            #src4=int(ligne2[0]) # Premier noeud à relier 
+            #dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+    g1=kruskal(g)
+
+    debut2 = perf_counter()
+    min_power2(g1,src2,dest2)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2#
+
+
+    debut3 = perf_counter()
+    min_power2(g1,src3,dest3)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
+    
+
+    #debut4 = perf_counter()
+    #min_power2(g1, src4,dest4)
+    #fin4 = perf_counter()
+    #tmp4= fin4 - debut4
+
+    tmp_moy = (tmp2 + tmp3 )/2
+    temps_routes = tmp_moy*nb_trajets
+    return(temps_routes)
+
+''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la deuxième méthode'''
+
+def temps2(x):
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
+
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
+
+            ligne4=file.readline().split() # i eme ligne du fichier file 
+            src4=int(ligne2[0]) # Premier noeud à relier 
+            dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+    g1=kruskal(g)
+
+    debut2 = perf_counter()
+    min_power2(g1,src2,dest2)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2#
+
+
+    debut3 = perf_counter()
+    min_power2(g1,src3,dest3)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
+    
+
+    debut4 = perf_counter()
+    min_power2(g1, src4,dest4)
+    fin4 = perf_counter()
+    tmp4= fin4 - debut4
+
+    tmp_moy = (tmp2 + tmp3 +tmp4)/3
+    temps_routes = tmp_moy*nb_trajets
+
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",temps_routes, "s")
+
+
+''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la troisième méthode'''
+
+def temps3(x):
+
+    filename="input/routes."+ str(x) + ".in"
+    network = "input/network." + str(x)+ ".in"
+
+    with open(filename) as file: #on ouvre le fichier
+            ligne1=file.readline().split()
+            nb_trajets=int(ligne1[0])
+        
+        
+            ligne2=file.readline().split() # i eme ligne du fichier file 
+            src2=int(ligne2[0]) # Premier noeud à relier 
+            dest2=int(ligne2[1]) # Second noeud à relier
+
+            ligne3=file.readline().split() # i eme ligne du fichier file 
+            src3=int(ligne2[0]) # Premier noeud à relier 
+            dest3=int(ligne2[1]) # Second noeud à relier
+
+            ligne4=file.readline().split() # i eme ligne du fichier file 
+            src4=int(ligne2[0]) # Premier noeud à relier 
+            dest4=int(ligne2[1]) # Second noeud à relier
+
+
+
+    g = graph_from_file(network)
+    g1=kruskal(g)
+    
+    po, pa = parents_profondeurs(1, g1)
+
+    debut2 = perf_counter()
+    min_power3(src2,dest2, g1, pa, po)
+    fin2 = perf_counter()
+    tmp2= fin2 - debut2
+
+
+    debut3 = perf_counter()
+    min_power3(src3,dest3, g1, pa, po)
+    fin3 = perf_counter()
+    tmp3= fin3 - debut3
+    
+
+    debut4 = perf_counter()
+    min_power3(src4,dest4, g1, pa, po)
+    fin4 = perf_counter()
+    tmp4= fin4 - debut4
+
+    tmp_moy = (tmp2 + tmp3 +tmp4)/3
+    temps_routes = tmp_moy*nb_trajets
+
+    return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la troisième fonction", str(x), "est",temps_routes, "s")
+
+''' On définit une fonction pour donner le temps d'éxecution de la fonction kruskal'''
+
+def temps_krusk(x):
+    network = "input/network." + str(x)+ ".in"
+    g=graph_from_file(network)
+
+    debut = perf_counter()
+    kruskal(g)
+    fin = perf_counter()
+    tmp = fin- debut
+
+    return("Le temps de Kruskal est", tmp, "s")
+
+''' On définit une fonction pour donner le temps d'éxecutionde parents_profondeurs et de kruskal'''
+
+
+def temps_kruskal_prof_par(x):
+    network = "input/network." + str(x)+ ".in"
+    g=graph_from_file(network)
+
+    debut = perf_counter()
+    g_mst=kruskal(g)
+    parents_profondeurs(1,g_mst)
+    fin = perf_counter()
+    tmp = fin- debut
+
+    return("Le temps de parents_profondeurs est", tmp, "s")
+
+
+
+''' La fonction calcul permet de résoudre un sytème donnant le temps de kruskal'''
+
+
+
+#def calcul(x) :
+    #t2=temps2bis(x)
+    #t3=temps2(x)
+
+    #filename="input/routes."+ str(x) + ".in"
+    #network = "input/network." + str(x)+ ".in"
+
+    #with open(filename) as file: #on ouvre le fichier
+            #ligne1=file.readline().split()
+            #nb_trajets=int(ligne1[0])
+    #a = (6/(nb_trajets)*(t2-t3)+3*t3-2*t2)
+
+    #return ((6/(nb_trajets)*(t2-t3)+3*t3-2*t2))
+
+
+
+''' Comparaison regroupe nnos fonctions de temps et nous permet de les appeler facilement'''
+
+def comparaison(x):
+    #print(temps(x))
+    print(temps3(x))
+    #print(calcul(x))
+    print(temps_kruskal_prof_par(x))
+
+for i in range (1,10):
+    print(comparaison(i))
