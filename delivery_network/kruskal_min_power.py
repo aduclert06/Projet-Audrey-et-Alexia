@@ -129,6 +129,8 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
     chemin=[]
     prof_dest= profondeurs[dest]
     prof_src= profondeurs[src]
+    if src == dest :
+        return ([src],0)
     
 
     if prof_src>prof_dest :
@@ -153,32 +155,44 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
             
             else :
                 prof_dest = profondeurs[dest]
+                
                 chemin2.append(dest)
-    else  :
-        while parents[src]!=parents[dest]:
-            src=parents[src]
-            dest=parents[dest]
-            chemin1.append(src)
-            chemin2.append(dest)
+    
+
+    if parents[src]==parents[dest] and src!=dest :
+        src1=parents[src]
+        
+        chemin1.append(src1)
+
+    
+    while parents[src]!=parents[dest]:
+        chemin1.append(parents[src])
+        chemin2.append(parents[dest])
+        src=parents[src]
+        dest=parents[dest]
+    
 
         chemin1.append(parents[src])
-    
+
         
 
-        chemin2.reverse()
-        chemin = chemin + chemin1 + chemin2
+    chemin2.reverse()
+    
+    chemin = chemin + chemin1 + chemin2
+    chemin_eco=chemin
+   
         
     
     puissances = []
-    p_min = 0 #si on ne trouve pas de chemin, on renvoie une puissance négative
+    p_min = -1 #si on ne trouve pas de chemin, on renvoie une puissance négative
 
-    for i in range (len(chemin)-1):
-        key = chemin[i]
+    for i in range (len(chemin_eco)-1):
+        key = chemin_eco[i]
         
 
         for e in g_mst.graph[key]:
 
-            if e[0]==chemin[i+1]:
+            if e[0]==chemin_eco[i+1]:
                 puissances.append(e[1])
     
     if len(puissances)!=0 :
@@ -186,20 +200,21 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
 
     
     
-    return (chemin, p_min)
+    return (chemin_eco, p_min)
 
 '''Données pour tester min_power3'''
 
 network = "input/network.00.in"
-g1 = g = graph_from_file(network)
+network2= "input/network.1.in"
+g1 = graph_from_file(network2)
 g2=kruskal(g1)
-print(g2)
-po, pa = parents_profondeurs(1, g1)
+#print(g2)
+po, pa = parents_profondeurs(1, g2)
 #print(po,pa)
 #print(po[3])
 
-print(min_power2(g1,3,8))
-print(min_power3(3, 8, g2, pa, po))
+#print(min_power2(g1,3,8))
+#print(min_power3(6,6, g2, pa, po))
 
 #print(g1)
 #print(kruskal(g1))

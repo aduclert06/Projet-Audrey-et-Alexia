@@ -30,6 +30,8 @@ def routes_out(x):
         for  puissance in res :
             file.write(str(puissance) + "\n")
 
-print(routes_out(1))
+for i in range(1,10):
+
+    print(routes_out(i))
         
 
