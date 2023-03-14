@@ -1,5 +1,48 @@
 On regroupe ici les calculs de complexité des programmes du projet
 
+On note V= le nombre de noeuds et E le nombres d'arêtes du graphe
+
 Question 3 :
 
 Complexité de get_path_with_power : 
+
+Pour évaluer la complexité, il faut évaluer la complexité de parcours_profondeur :
+ dans le pire des cas, on parcourt tous les noeuds du graphe et le nombre de voisins visités est proportionnel 
+ au nombre d'arêtes O(V + E).
+
+Et la fonction get_path_with_power ne fait qu'appeler parcours_profondeur donc a la même complexité de O(V+E).
+
+
+Question 6 :
+
+complexité de min_power :
+
+Dan smin_power, on passe en revue toutes les arêtes du graphe pour obtenir la liste des puissances. Cela se fait en O(E) puis on fait une recherche dichotomique qui a un coup de O(log(E)). Et on appelle, get_path_with power à chaque fois qui a une complexité de O(V+E). 
+
+Question 12 :
+
+Complexité de kruskal :
+
+On commence par trier les arêtes par puissance ce qui a un coup de O(Elog(E)).
+On appelle ensuite find pour chaque arête. find a une complexité de O(log(V)).
+
+Comme on boucle le programme sur le nombre d'arêtes on trouve, une complexité en O(Elog(V))
+
+Question 15 :
+
+Le temps pour calculer l'ensemble des trajets a été réduit à 2h pour les premiers network 1 et 2.
+Le programme a du mal à calculer les résultats pour les plus gros graphes. En effet, comme on choisit de mettre la
+destination comme racine de notre arbre, on change de profondeurs et de parents pour chaque chemin
+On perd donc trop de temps à calculer à chaque fois parents et profondeurs
+
+On code donc une troisième fois min_power afin de n'avoir à faire les programmes kruskal et parents_profondeurs,
+une seule fois par graphe
+
+Complexité :
+
+
+
+
+
+
+

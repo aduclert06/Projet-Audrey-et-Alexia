@@ -13,6 +13,7 @@ from kruskal_min_power import*
 
 
 ######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
+
 def temps(x):
 
     filename="input/routes."+ str(x) + ".in"
@@ -23,21 +24,24 @@ def temps(x):
             nb_trajets=int(ligne1[0])
         
         
-            ligne2=file.readline().split() # i eme ligne du fichier file 
+            ligne2=file.readline().split() # 2 eme ligne du fichier file 
             src2=int(ligne2[0]) # Premier noeud à relier 
             dest2=int(ligne2[1]) # Second noeud à relier
 
-            ligne3=file.readline().split() # i eme ligne du fichier file 
+            ligne3=file.readline().split() # 3 eme ligne du fichier file 
             src3=int(ligne3[0]) # Premier noeud à relier 
             dest3=int(ligne3[1]) # Second noeud à relier
 
-            ligne4=file.readline().split() # i eme ligne du fichier file 
+            ligne4=file.readline().split() # 4 eme ligne du fichier file 
             src4=int(ligne4[0]) # Premier noeud à relier 
             dest4=int(ligne4[1]) # Second noeud à relier
 
 
 
     g = graph_from_file(network)
+
+    #on le teste sur les 3 premières lignes du fichier et on fait une moyenne de ces 3 temps pour ensuite
+    #la multiplier par le nombre de trajet
 
     debut2 = perf_counter()
     g.min_power(src2,dest2)
@@ -64,7 +68,7 @@ def temps(x):
 #print(temps(1))
 #print(temps(2))
 
-#on se rend compte sur les fichiers 1 et 2 qu'on a une durée de plusieurs heures, ce qui est trop long.
+#on se rend compte sur les fichiers 1 et 2 qu'on a une durée de plusieurs jours, ce qui est trop long.
 #Pour les fichiers plus gros (routes 3,4...), python execute trop de récursions.
 #Il faut donc améliorer notre fonction min_power
 
@@ -85,15 +89,15 @@ def temps2(x):
             nb_trajets=int(ligne1[0])
         
         
-            ligne2=file.readline().split() # i eme ligne du fichier file 
+            ligne2=file.readline().split() # 2 eme ligne du fichier file 
             src2=int(ligne2[0]) # Premier noeud à relier 
             dest2=int(ligne2[1]) # Second noeud à relier
 
-            ligne3=file.readline().split() # i eme ligne du fichier file 
+            ligne3=file.readline().split() # 3 eme ligne du fichier file 
             src3=int(ligne3[0]) # Premier noeud à relier 
             dest3=int(ligne3[1]) # Second noeud à relier
 
-            ligne4=file.readline().split() # i eme ligne du fichier file 
+            ligne4=file.readline().split() # 4 eme ligne du fichier file 
             src4=int(ligne4[0]) # Premier noeud à relier 
             dest4=int(ligne4[1]) # Second noeud à relier
 
@@ -124,6 +128,13 @@ def temps2(x):
 
     return ("Le temps pour calculer l'ensemble des trajets du fichier routes avec la deuxième fonction", str(x), "est",temps_routes, "s")
 
+#Le temps pour calculer l'ensemble des trajets a été réduit à 2h pour les premiers network 1 et 2.
+#Le programme a du mal à calculer les résultats pour les plus gros graphes. En effet, comme on choisit de mettre la
+#destination comme racine de notre arbre, on change de profondeurs et de parents pour chaque chemin
+#On perd donc trop de temps à calculer à chaque fois parents et profondeurs.
+
+#On code donc une troisième fois min_power afin de n'avoir à faire les programmes kruskal et parents_profondeurs,
+#une seule fois par graphe
 
 ''' On définit une fonction qui calcule le temps pour trouver les trajets sur un fichier route avec la troisième méthode
 comme indiqué dans la séance 3'''
@@ -138,16 +149,16 @@ def temps3(x):
             nb_trajets=int(ligne1[0])
         
         
-            ligne2=file.readline().split() # i eme ligne du fichier file 
+            ligne2=file.readline().split() # 2 eme ligne du fichier file 
             src2=int(ligne2[0]) # Premier noeud à relier 
             dest2=int(ligne2[1]) # Second noeud à relier
         
 
-            ligne3=file.readline().split() # i eme ligne du fichier file 
+            ligne3=file.readline().split() # 3 eme ligne du fichier file 
             src3=int(ligne3[0]) # Premier noeud à relier 
             dest3=int(ligne3[1]) # Second noeud à relier
 
-            ligne4=file.readline().split() # i eme ligne du fichier file 
+            ligne4=file.readline().split() # 4 eme ligne du fichier file 
             src4=int(ligne4[0]) # Premier noeud à relier 
             dest4=int(ligne4[1]) # Second noeud à relier
 
@@ -222,7 +233,7 @@ def temps_total(x) :
 
 
 
-''' Comparaison regroupe nnos fonctions de temps et nous permet de les appeler facilement'''
+''' Comparaison regroupe nos fonctions de temps et nous permet de les appeler facilement'''
 
 def comparaison(x):
     #print(temps(x))
@@ -235,5 +246,6 @@ def comparaison(x):
 for i in range (1,10):
     print(comparaison(i))
 
-'''Conclusion : On trouve un résultat de l'ordre de la minute'''
+'''Conclusion : On trouve un résultat de l'ordre de la minute, on a lancé plusieurs fois le programme, on trouve
+au maximum un temps inférieur à 200s '''
 

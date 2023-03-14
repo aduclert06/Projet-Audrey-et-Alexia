@@ -113,9 +113,9 @@ def min_power2 (g_mst, src, dest):
     #g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
     #print(g_mst)
     chemin=[src]
-    profondeurs, parents = parents_profondeurs(dest,g_mst)
-    p_src = profondeurs[src]
-    for i in range (p_src):
+    profondeurs, parents = parents_profondeurs(dest,g_mst) #Par défaut on prend la destination comme racine
+    p_src = profondeurs[src]# on calcule la profondeur de la source par rapport à la dest
+    for i in range (p_src):#On relie alors src à dest car le trajet est direct par les propriétés des arbres couvrants minimum
         chemin.append(parents[src])
         src= parents[src]
 
@@ -124,14 +124,27 @@ def min_power2 (g_mst, src, dest):
 ''' On essaye d'optimiser min_power2 qui nous donne un résultat en 2h'''
 
 def min_power3(src, dest, g_mst, parents, profondeurs):
-    chemin1=[src]
+    '''Le principe de cette fonction est de trouver le plus proche parent commun de dest et de src.
+    On crée deux chemins, le premier relier la src à ce parent, le deuxième la destination au parent commun. 
+    On concatène ensuite les deux chemins. On sait que ce chemin est unique par priopriété de kruskal'''
+    #initialisation des chemins
+    chemin1=[src] 
     chemin2=[dest]
     chemin=[]
+    #pour trouver le parent commun, on a besoin de calculer les profondeurs de src et dest
+
     prof_dest= profondeurs[dest]
     prof_src= profondeurs[src]
+
+    #Cas de bord où l'on veut relier src à elle-même
     if src == dest :
         return ([src],0)
     
+    #le but est d'amener le noeud dont la profondeur est la plus grande
+    #au niveau de la profondeur de l'autre noeud, pour remonter ensuite en même temps jusqu'au parent commun
+    
+    #disjonction de cas
+
 
     if prof_src>prof_dest :
         while prof_src!= prof_dest :
@@ -158,13 +171,14 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
                 
                 chemin2.append(dest)
     
-
+    #Une fois que les noeuds sont à la même hauteur, il se peut que le parent commun soit déjà trouvé
+    #Le chemin le plus économique est donc trouvé
     if parents[src]==parents[dest] and src!=dest :
         src1=parents[src]
         
         chemin1.append(src1)
 
-    
+    #Une fois que les noeuds sont à la même hauteur, on remonte jusqu'au parent commun
     while parents[src]!=parents[dest]:
         chemin1.append(parents[src])
         chemin2.append(parents[dest])
@@ -179,20 +193,20 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
     chemin2.reverse()
     
     chemin = chemin + chemin1 + chemin2
-    chemin_eco=chemin
+    
    
         
-    
+    #On cherche la puissance à renvoyer
     puissances = []
     p_min = -1 #si on ne trouve pas de chemin, on renvoie une puissance négative
 
-    for i in range (len(chemin_eco)-1):
-        key = chemin_eco[i]
+    for i in range (len(chemin)-1):
+        key = chemin[i]
         
 
         for e in g_mst.graph[key]:
 
-            if e[0]==chemin_eco[i+1]:
+            if e[0]==chemin[i+1]:
                 puissances.append(e[1])
     
     if len(puissances)!=0 :
@@ -200,7 +214,7 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
 
     
     
-    return (chemin_eco, p_min)
+    return (chemin, p_min)
 
 '''Données pour tester min_power3'''
 
