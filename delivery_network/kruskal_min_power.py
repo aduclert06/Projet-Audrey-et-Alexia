@@ -134,32 +134,46 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
     if prof_src>prof_dest :
         while prof_src!= prof_dest :
             src=parents[src]
-            prof_src = profondeurs[src]
-            chemin1.append(src)
+            if src==dest :
+                chemin1.append(src)
+                chemin2=[]
+            else :
+                prof_src = profondeurs[src]
+                chemin1.append(src)
+
 
     if prof_dest>prof_src :
         while prof_src!= prof_dest :
             dest=parents[dest]
-            prof_dest = profondeurs[dest]
-            chemin2.append(dest)
+            if src==dest:
+                chemin2.append(dest)
+                chemin1=[]
+            
+            else :
+                prof_dest = profondeurs[dest]
+                chemin2.append(dest)
     else  :
         while parents[src]!=parents[dest]:
             src=parents[src]
             dest=parents[dest]
             chemin1.append(src)
             chemin2.append(dest)
+
         chemin1.append(parents[src])
     
         
 
         chemin2.reverse()
         chemin = chemin + chemin1 + chemin2
+        
     
     puissances = []
-    p_min = -1 #si on ne trouve pas de chemin, on renvoie une puissance négative
+    p_min = 0 #si on ne trouve pas de chemin, on renvoie une puissance négative
 
     for i in range (len(chemin)-1):
         key = chemin[i]
+        
+
         for e in g_mst.graph[key]:
 
             if e[0]==chemin[i+1]:

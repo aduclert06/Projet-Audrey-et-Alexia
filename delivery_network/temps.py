@@ -2,7 +2,7 @@
 
 from graph import Graph, graph_from_file
 from time import*
-from main import*
+from kruskal_min_power import*
 
 ''' Estimation de temps de la question 10'''
 
