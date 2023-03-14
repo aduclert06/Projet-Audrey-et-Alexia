@@ -84,21 +84,23 @@ class Graph:
         res = self.parcours_profondeur(src, chemin, dest, power, visited_node)#sinon on renvoie le premier chemin trouvé
         return  res
     
+    def parcours_profondeur_components(self, node, visited_node): #on crée une fonction récursive qui va parcourir toute la composante connexe
+        composante = [node]#La composante est constitué d'un premier noeud
+        for voisin in self.graph[node]:#on va visiter les voisins de ce noeud
+            voisin = voisin[0]
+            if not visited_node[voisin]:#si le noeud n'a pas déjà été visité
+                visited_node[voisin] = True#on change son statut comme visité
+                composante += self.parcours_profondeur_components(voisin, visited_node)#on va regarder les voisins de ce noeud, que l'on ajoute de manière récursive à la composante connexe
+        return composante #on renvoie la composante
+    
     def connected_components(self):
         liste_composantes = []#On crée la liste vide des composante, que l'on va compléter au long du programme
         visited_node = {node : False for node in self.nodes}#on crée un dictionnaire qui indique si un noeud a été visité ou non
 
-        def parcours_profondeur(node):#on crée une fonction récurvise qui va parcourir toute la composante connexe
-            composante = [node]#La composante est constitué d'un premier noeud
-            for voisin in self.graph[node]:#on va visiter les voisins de ce noeud
-                voisin = voisin[0]
-                if not visited_node[voisin]:#si le noeud n'a pas déjà été visité
-                    visited_node[voisin] = True#on change son statut comme visité
-                    composante += parcours_profondeur(voisin)#on va regarder les voisins de ce noeud, que l'on ajoute de manière récursive à la composante connexe
-            return composante #on renvoie la composante
+       
         for node in self.nodes: #on applique le parcours le parcours en profondeur à tous les noeuds du graphe pour trouver les compposantes connexes
             if not visited_node[node]:
-                liste_composantes.append(parcours_profondeur(node))#on ajoute les composantes connexes à la liste des composantes
+                liste_composantes.append(self.parcours_profondeur_components(node, visited_node))#on ajoute les composantes connexes à la liste des composantes
         return liste_composantes
         
     def connected_components_set(self):
