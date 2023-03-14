@@ -137,6 +137,7 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
             if src==dest :
                 chemin1.append(src)
                 chemin2=[]
+                break
             else :
                 prof_src = profondeurs[src]
                 chemin1.append(src)
@@ -148,6 +149,7 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
             if src==dest:
                 chemin2.append(dest)
                 chemin1=[]
+                break
             
             else :
                 prof_dest = profondeurs[dest]
@@ -196,7 +198,7 @@ po, pa = parents_profondeurs(1, g1)
 #print(po,pa)
 #print(po[3])
 
-#print(min_power2(g1,3,8))
+print(min_power2(g1,3,8))
 print(min_power3(3, 8, g2, pa, po))
 
 #print(g1)

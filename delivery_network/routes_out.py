@@ -28,7 +28,7 @@ def routes_out(x):
 
     with open(filename_new, "w") as file :
         for  puissance in res :
-            file.write(puissance + "\n")
+            file.write(str(puissance) + "\n")
 
 print(routes_out(1))
         
