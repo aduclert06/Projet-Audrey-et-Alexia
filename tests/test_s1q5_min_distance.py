@@ -1,7 +1,7 @@
 import sys 
-sys.path.append("delivery_network")
+sys.path.append("delivery_network/")
 
-from graph import Graph, get_path_with_power, min_power
+from graph import *
 
 import unittest   # The test framework
 
