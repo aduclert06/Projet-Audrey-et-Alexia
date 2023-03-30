@@ -190,7 +190,7 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
             node2=int(lignei[1]) # Second noeud à relier
             power_min=int(lignei[2]) # Puissance de l'arrête
             if len(lignei)>3: # cas où il y a une distance d'une arrête
-                dist=int(lignei[3]) # Distance de l'arête 
+                dist=float(lignei[3]) # Distance de l'arête 
                 G.add_edge(node1, node2, power_min, dist)
             else:
                 G.add_edge(node1, node2, power_min)

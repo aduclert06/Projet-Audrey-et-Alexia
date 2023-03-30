@@ -19,19 +19,29 @@ def routes_out(x):
 
             for i in range(nb_trajets):
                 lignei=file.readline().split() # i eme ligne du fichier file 
+                utilite=str(lignei[2]) #on récupère l'utilité
                 src=int(lignei[0]) # Premier noeud à relier 
                 dest=int(lignei[1]) # Second noeud à relier
 
                 chemin, p_min = min_power3(src, dest, g_mst, parents, profondeurs)
 
-                res.append(p_min)
+                res.append((p_min, utilite))
 
     with open(filename_new, "w") as file :
-        for  puissance in res :
-            file.write(str(puissance) + "\n")
+        for  el in res :
+            puissance = el[0]
+            utilite = el[1]
 
-for i in range(1,10):
+            file.write(str(puissance)+ " " + utilite + "\n")
+
+'''
+for i in range(1,11):
 
     print(routes_out(i))
+    '''
+print(routes_out(1))
+    
+
+
         
 
