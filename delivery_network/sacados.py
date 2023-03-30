@@ -27,11 +27,13 @@ def catalogue_from_file(x):
             res.append((puissance, cout))
     return(res)
 
-def catalogue_utile(catalogue):
+def catalogue_utile(x):
     '''Cette fonction enlève les camions "inutiles", c'est-à-dire ceux ayant une puissance inférieure à un autre camion moins cher.
     args : catalogue(list): liste renvoyée par catalogue_from_file
     returns : catalogue_utile(list): liste des couples (puissance, cout) des camions utiles
     '''
+    catalogue= catalogue_from_file(x)
+
     prix_tmp=catalogue[-1][1]
     catalogue_utile=[catalogue[-1]]
 
@@ -42,11 +44,24 @@ def catalogue_utile(catalogue):
         if catalogue[j-1][1]<catalogue_utile[0][1]: 
             catalogue_utile.insert(0,catalogue[j-1])
             prix_tmp=catalogue[j-1][1]
-            
+    
+    filename_new="input/trucks_utile."+ str(x) + ".out"
 
-    return catalogue_utile
+    with open(filename_new, "w") as file :
+        a=str(len(catalogue_utile))
+
+        file.write(a+"\n")
+
+        for  el in catalogue_utile :
+            puissance = el[0]
+            cout = el[1]
+
+            file.write(str(puissance)+ " " + str(cout) + "\n")
+            
 
 c=[(1000,99),(2000, 294), (3000,365), (4000,382),(5000,295)]
 
-print(catalogue_utile(c))
+print(catalogue_utile(0))
+
+
     
