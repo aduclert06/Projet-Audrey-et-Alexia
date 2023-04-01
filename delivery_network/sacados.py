@@ -120,11 +120,15 @@ c=[(1000,99),(2000, 294), (3000,365), (4000,382),(5000,295)]
 
 def appariement(x_trucks,y_routes):
     '''Cette fonction choisit le camion le moins cher pour chaque trajet du fichier routes.y_routes_out.out
-    args :
+    args : 
+        x_trucks(int):
+        y_routes(int)
+
     returns :
     '''
     catalogue = catalogue_from_file_out(x_trucks)
     routes = routes_from_file_out(y_routes)
+
     appariement=[]
 
     for i in range (len(routes)):
@@ -134,6 +138,9 @@ def appariement(x_trucks,y_routes):
 
         a=0
         p1=catalogue[a][0]
+        if p1 >= p_min:
+            el=(p1, catalogue[a][1], routes[i][1])
+            appariement.append(el)
         b=len(catalogue)-1
         p2=catalogue[b][0]
         m=(a+b)//2
@@ -141,17 +148,22 @@ def appariement(x_trucks,y_routes):
             
 
         while a<=b :
+            
                 
             if pm==p_min:
                 el=(pm, catalogue[m][1], routes[i][1])
                 appariement.append(el)
+                
                 break
 
             elif pm<p_min :
+                
                 a=m+1
 
             elif pm>p_min and catalogue[m-1][0]<p_min :
+                
                 el=(pm, catalogue[m][1], routes[i][1])
+                
                 appariement.append(el)
                 break
 
@@ -159,11 +171,13 @@ def appariement(x_trucks,y_routes):
                 b=m-1
             
             m=(a+b)//2
+            pm=catalogue[m][0]
+            
 
 
     return(appariement)
 
-print(appariement(0,1))
+print(appariement(2,4))
 
 
 
