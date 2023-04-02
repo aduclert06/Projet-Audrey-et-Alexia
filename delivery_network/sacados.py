@@ -196,6 +196,7 @@ a= appariement(0, 1)
 # Solution approchée - Algorithme glouton
 '''rappel : appariement(list) : les éléments sont sous la forme
 (puissance camion, coût camion, utilité)'''
+
 def sacados_glouton(budget, appariement):
     '''Cette fonction permet de sélectionner de manière naive les camions et les routes à traverser selon un budget donné B.
     Cette fonction ne prend pas en clmpte les éléments suivants. Elle traite le problème éléments à éléments.
@@ -223,22 +224,35 @@ def sacados_glouton(budget, appariement):
 
     return gain, selection #on revoie le profit et les éléments selectionnés
 
-print(sacados_glouton(B2, a))
+#print(sacados_glouton(B2, a))
 
 
 # Solution force brute - Recherche de toutes les solutions
-'''def sacados_force_brute(capacite, elements, elements_selection = []):
-    if elements:
-        val1, lstVal1 = sacADos_force_brute(capacite, elements[1:], elements_selection)
-        val = elements[0]
-        if val[1] <= capacite:
-            val2, lstVal2 = sacADos_force_brute(capacite - val[1], elements[1:], elements_selection + [val])
-            if val1 < val2:
-                return val2, lstVal2
+def sacados_force_brute(budget, appariement, selection = []):
+    '''2^n solutions'''
 
-        return val1, lstVal1
+    if appariement: #on regarde s'il y a toujours des éléments dans la liste
+        el1, listeel1 = sacados_force_brute(budget, appariement[1:], selection) #récursivité
+        el = appariement[0]
+        if el[1] <= budget: #on regarde si on peut acheter le camion
+            el2, listeel2 = sacados_force_brute(budget - el[1], appariement[1:], selection + [el]) 
+            #Si c'est le cas on l'ajoute à la selection, on retire le coût du camion au budget et on retire le camion de la liste appariement
+            if el1 < el2: #on regarde quelle est la solution optimale (ajouter ou non le camion)
+                return el2, listeel2
+
+        return el1, listeel1
     else:
-        return sum([i[2] for i in elements_selection]), elements_selection'''
+        profit= sum([i[2] for i in selection]) #on calcule le profit qui est la somme des utilités
+
+        return profit, selection
+
+B3 = 10
+a2=((1,8,10),(2,4,6),(3,6,6))
+
+print(sacados_force_brute(B2, a2))
+print(sacADos_force_brute(B2, a2))
+
+
  
 
 
