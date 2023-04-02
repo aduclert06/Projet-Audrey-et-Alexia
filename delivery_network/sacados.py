@@ -188,8 +188,58 @@ def appariement(x_trucks,y_routes):
 
 #print(appariement(2,4))
 
-#fonction sac à dos
+#fonctions sac à dos
+B = 25*10**9 #budget
+B2 = 10000
+a= appariement(0, 1)
 
+# Solution approchée - Algorithme glouton
+'''rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)'''
+def sacados_glouton(budget, appariement):
+    '''Cette fonction permet de sélectionner de manière naive les camions et les routes à traverser selon un budget donné B.
+    Cette fonction ne prend pas en clmpte les éléments suivants. Elle traite le problème éléments à éléments.
+    La solution obtenu n'est donc pas l'optimum
+    
+        args : 
+            budget(int)= le budget de l'entreprise de transport
+        returns : 
+            gain(float) = renvoie le gain réalisé par l'entreprise avec cette méthode de sélecton de camion
+            selection(list) = renvoie la selection de camions à commander avec leur prix et l'affectation à une route désignée par son utilité
+            les éléments de selection sont donc comme suit 
+            (puissance camion, coût camion, utilité route affectée au camion) '''
+
+    appariement_tri = sorted(appariement, key=lambda x: x[2]) #on trie les éléments d'appariement selon leur utilité
+    #cad selon ce qu'ils peuvent rapporter
+    selection = []
+    cout_total = 0
+
+    while appariement_tri:
+        el = appariement_tri.pop() #on regarde le dernier élement d'appariement qui a donc la plus grand utilité
+        if el[1] + cout_total <= budget: #s'il a un cout inférieur au budget
+            selection.append(el) #alors on l'ajoute à notre selection
+            cout_total += el[1] #on actualise le cout total
+    gain = sum([i[2] for i in selection])
+
+    return gain, selection #on revoie le profit et les éléments selectionnés
+
+print(sacados_glouton(B2, a))
+
+
+# Solution force brute - Recherche de toutes les solutions
+'''def sacados_force_brute(capacite, elements, elements_selection = []):
+    if elements:
+        val1, lstVal1 = sacADos_force_brute(capacite, elements[1:], elements_selection)
+        val = elements[0]
+        if val[1] <= capacite:
+            val2, lstVal2 = sacADos_force_brute(capacite - val[1], elements[1:], elements_selection + [val])
+            if val1 < val2:
+                return val2, lstVal2
+
+        return val1, lstVal1
+    else:
+        return sum([i[2] for i in elements_selection]), elements_selection'''
+ 
 
 
 
