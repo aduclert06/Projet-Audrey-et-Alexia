@@ -121,10 +121,11 @@ c=[(1000,99),(2000, 294), (3000,365), (4000,382),(5000,295)]
 def appariement(x_trucks,y_routes):
     '''Cette fonction choisit le camion le moins cher pour chaque trajet du fichier routes.y_routes_out.out
     args : 
-        x_trucks(int):
-        y_routes(int)
+        x_trucks(int): numéro du fichier trucks_utile.x_trucks.out
+        y_routes(int): numéro du fichier routes.y_routes.out
 
-    returns :
+    returns : appariement (lis) : liste des appariements dont les éléments sont comme suit 
+    (puissance camion sélectionné, coût du camion selectionné, utilité de la route à traverser avec le camion sélectionné)
     '''
     catalogue = catalogue_from_file_out(x_trucks)
     routes = routes_from_file_out(y_routes)
