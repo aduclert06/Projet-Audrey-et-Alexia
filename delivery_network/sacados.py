@@ -204,6 +204,9 @@ def sacados_glouton(budget, appariement):
     
         args : 
             budget(int)= le budget de l'entreprise de transport
+            appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+            rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
         returns : 
             gain(float) = renvoie le gain réalisé par l'entreprise avec cette méthode de sélecton de camion
             selection(list) = renvoie la selection de camions à commander avec leur prix et l'affectation à une route désignée par son utilité
@@ -229,17 +232,32 @@ def sacados_glouton(budget, appariement):
 
 # Solution force brute - Recherche de toutes les solutions
 def sacados_force_brute(budget, appariement, selection = []):
-    '''2^n solutions'''
+    '''2^n solutions
+    Fonction récursive testant toutes les possibilités de selection de camion et renvoyant celle rapportant le plus
+        arg :
+            budget(int): budget de l'entreprise
+            appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+            rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
+            selection(list) : pour la récursivité, selection des tuples (camion, cout camion, utilité route)
+        
+        returns :
+            profit(float): profit effectué (ce que l'on cherche à maximiser)
+            selection(list) : selection des tuples (camion, cout camion, utilité route) renvoyant ke profit max
+
+
+'''
 
     if appariement: #on regarde s'il y a toujours des éléments dans la liste
-        el1, listeel1 = sacados_force_brute(budget, appariement[1:], selection) #récursivité
-        el = appariement[0]
+        el1, listeel1 = sacados_force_brute(budget, appariement[1:], selection) #récursivité sans prendre l'élément
+        el = appariement[0] 
         if el[1] <= budget: #on regarde si on peut acheter le camion
             el2, listeel2 = sacados_force_brute(budget - el[1], appariement[1:], selection + [el]) 
             #Si c'est le cas on l'ajoute à la selection, on retire le coût du camion au budget et on retire le camion de la liste appariement
             if el1 < el2: #on regarde quelle est la solution optimale (ajouter ou non le camion)
                 return el2, listeel2
 
+        
         return el1, listeel1
     else:
         profit= sum([i[2] for i in selection]) #on calcule le profit qui est la somme des utilités
@@ -249,8 +267,7 @@ def sacados_force_brute(budget, appariement, selection = []):
 B3 = 10
 a2=((1,8,10),(2,4,6),(3,6,6))
 
-print(sacados_force_brute(B2, a2))
-print(sacADos_force_brute(B2, a2))
+print(sacados_force_brute(B3, a2))
 
 
  
