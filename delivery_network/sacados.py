@@ -232,7 +232,7 @@ def sacados_glouton(budget, appariement):
 
 # Solution force brute - Recherche de toutes les solutions
 def sacados_force_brute(budget, appariement, selection = []):
-    '''2^n solutions, effectue beaucoup trop d'opérations pour les fichiers à traiter
+    '''2^n solutions, effectue beaucoup trop d'opérations pour les fichiers à traiter.
     Fonction récursive testant toutes les possibilités de selection de camion et renvoyant celle rapportant le plus
         arg :
             budget(int): budget de l'entreprise
