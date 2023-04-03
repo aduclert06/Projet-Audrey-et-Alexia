@@ -181,7 +181,21 @@ def appariement(x_trucks,y_routes):
             
     return(appariement)
 
-#print(appariement(2,4))
+def temps_appariement(x_trucks,y_routes):
+
+    debut = perf_counter()
+    appariement(x_trucks,y_routes)
+    fin = perf_counter()
+    tmp = fin- debut
+
+    return("Le temps de appariement est", tmp, "s")
+
+#for i in  range (3):
+ #   for j in range(1,11):
+  #      print(temps_appariement(i, j))
+
+
+
 
 #fonctions sac à dos
 B = 25*10**9 #budget
@@ -323,7 +337,7 @@ def sacados_dynamique(budget, appariement):
     '''Algorithme de programmation dynamique : 
     Le but est de créer une matrice : les lignes correspondent aux différents camions, les colonnes au budget (pour l'instant chaque colonne correspond à 1€)
     Pour chaque objet et chaque budget donnée, on regarde le max d'utilité entre le panier à ce budget donné sans le camion et 
-    l'utilité de ce camion + l'utilité - du panier avec un budget = budget - prix du camion
+    l'utilité de ce camion + l'utilité du panier avec un budget = budget - prix du camion
             arg :
             budget(int): budget de l'entreprise
             appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
@@ -338,7 +352,7 @@ def sacados_dynamique(budget, appariement):
 '''
     
     matrice = [[0 for x in range(int(budget + 1))] for x in range(len(appariement) + 1)]
-    #création de la matrice 
+    #création de la matrice camions/
 
     for i in range(1, len(appariement) + 1):
         for j in range(1, int(budget + 1)):
@@ -381,9 +395,10 @@ def simplification(budget, appariement, facteur):
         A.append(a_liste)
     return budget, A
 
-budget_bis, appariement_bis = simplification(B, a, 10e4)
+a= appariement(1, 2)
 
 
+budget_bis, appariement_bis = simplification(B, a, 10000)
 
 print(sacados_dynamique(budget_bis, appariement_bis))
 
