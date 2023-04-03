@@ -336,37 +336,56 @@ def sacados_dynamique(budget, appariement):
 
 
 '''
-    matrice = [[0 for x in range(budget + 1)] for x in range(len(appariement) + 1)]
+    
+    matrice = [[0 for x in range(int(budget + 1))] for x in range(len(appariement) + 1)]
     #création de la matrice 
 
     for i in range(1, len(appariement) + 1):
-        for j in range(1, budget + 1):
+        for j in range(1, int(budget + 1)):
             if appariement[i-1][1] <= j:
-                matrice[i][j] = max(appariement[i-1][2] + matrice[i-1][j-appariement[i-1][1]], matrice[i-1][j])
+                matrice[i][j] = max(appariement[i-1][2] + matrice[i-1][j-int(appariement[i-1][1])], matrice[i-1][j])
             else:
                 matrice[i][j] = matrice[i-1][j]
 
     # Retrouver les éléments en fonction de la somme
-    b = budget
+    b = int(budget)
     n = len(appariement)
+    print(n)
     selection = []
 
     while b >= 0 and n >= 0:
         c = appariement[n-1]
-        if matrice[n][b] == matrice[n-1][b-c[1]] + c[2]:
+        
+        if matrice[n][b] == matrice[n-1][b-int(c[1])] + c[2]:
             selection.append(c)
-            b -= c[1]
+            b -= int(c[1])
 
         n -= 1
     profit=matrice[-1][-1]
 
     return profit, selection
 
+B = 25*10**9 #budget
 
-B3 = 10
-a2=((1,8,10),(2,4,6),(3,6,6))
 
-print(sacados_dynamique(B3, a2))
+
+def simplification(budget, appariement, facteur):
+    budget = budget//facteur
+    A=[]
+    for i in range (len(appariement)):
+        
+        a = appariement[i]
+        a_liste=list(a)
+
+        a_liste[1]=a_liste[1]//facteur
+        A.append(a_liste)
+    return budget, A
+
+budget_bis, appariement_bis = simplification(B, a, 10e4)
+
+
+
+print(sacados_dynamique(budget_bis, appariement_bis))
 
 
     
