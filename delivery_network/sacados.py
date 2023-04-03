@@ -143,8 +143,6 @@ def appariement(x_trucks,y_routes):
     for i in range (len(routes)):
         p_min=routes[i][0]
 
-
-
         a=0
         p1=catalogue[a][0]
         if p1 >= p_min:
@@ -157,8 +155,7 @@ def appariement(x_trucks,y_routes):
             
 
         while a<=b :
-            
-                
+                            
             if pm==p_min:
                 el=(pm, catalogue[m][1], routes[i][1])
                 appariement.append(el)
@@ -182,8 +179,6 @@ def appariement(x_trucks,y_routes):
             m=(a+b)//2
             pm=catalogue[m][0]
             
-
-
     return(appariement)
 
 #print(appariement(2,4))
@@ -199,7 +194,7 @@ a= appariement(0, 1)
 
 def sacados_glouton(budget, appariement):
     '''Cette fonction permet de sélectionner de manière naive les camions et les routes à traverser selon un budget donné B.
-    Cette fonction ne prend pas en clmpte les éléments suivants. Elle traite le problème éléments à éléments.
+    Cette fonction ne prend pas en compte les éléments suivants. Elle traite le problème éléments à éléments.
     La solution obtenu n'est donc pas l'optimum
     
         args : 
@@ -227,7 +222,51 @@ def sacados_glouton(budget, appariement):
 
     return gain, selection #on revoie le profit et les éléments selectionnés
 
-#print(sacados_glouton(B2, a))
+#print('test1', sacados_glouton(B2, a))
+
+
+
+
+
+
+def sacados_glouton2(budget, appariement):
+    '''Cette fonction est une amélioration de glouton : au lieu de trier l'appariement par utilité, on trie par utilié/côut, 
+    permet de sélectionner les camions dont le rapport utilité/coût est le plus élevé ie dont le gain relatif ets le plus élevéd
+    Cette fonction traite le problème éléments à éléments.
+    La solution obtenu n'est donc pas l'optimum
+    
+        args : 
+            budget(int)= le budget de l'entreprise de transport
+            appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+            rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
+        returns : 
+            gain(float) = renvoie le gain réalisé par l'entreprise avec cette méthode de sélecton de camion (ie utilité/cout)
+            selection(list) = renvoie la selection de camions à commander avec leur prix et l'affectation à une route désignée par son utilité
+            les éléments de selection sont donc comme suit 
+            (puissance camion, coût camion, utilité route affectée au camion) '''
+
+    appariement_tri = sorted(appariement, key=lambda x: x[2]/x[1]) #on trie les éléments d'appariement selon leur utilité/côut
+    #cad selon ce qu'ils peuvent rapporter
+    selection = []
+    cout_total = 0
+
+    while appariement_tri:
+        el = appariement_tri.pop() #on regarde le dernier élement d'appariement qui a donc la plus grand utilité
+        if el[1] + cout_total <= budget: #s'il a un cout inférieur au budget
+            selection.append(el) #alors on l'ajoute à notre selection
+            cout_total += el[1] #on actualise le cout total
+    gain = sum([i[2] for i in selection])
+
+    return gain, selection #on revoie le profit et les éléments selectionnés
+
+#print('test2', sacados_glouton2(B2, a))
+
+
+
+
+
+
 
 
 # Solution force brute - Recherche de toutes les solutions
@@ -272,6 +311,53 @@ a2=((1,8,10),(2,4,6),(3,6,6))
 
  
 
+
+
+
+# Solution optimale - programmation dynamique
+
+
+
+
+def sacADos_dynamique(capacite, elements):
+    '''Algorithme de programmation dynamique : 
+    Le but est de créer une matrice : les lignes correspondent aux différents camions, les colonnes
+        arg :
+            budget(int): budget de l'entreprise
+            appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+            rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
+            selection(list) : pour la récursivité, selection des tuples (camion, cout camion, utilité route)
+        
+        returns :
+            profit(float): profit effectué (ce que l'on cherche à maximiser)
+            selection(list) : selection des tuples (camion, cout camion, utilité route) renvoyant le profit max
+
+
+'''
+    matrice = [[0 for x in range(capacite + 1)] for x in range(len(elements) + 1)]
+
+    for i in range(1, len(elements) + 1):
+        for w in range(1, capacite + 1):
+            if elements[i-1][1] <= w:
+                matrice[i][w] = max(elements[i-1][2] + matrice[i-1][w-elements[i-1][1]], matrice[i-1][w])
+            else:
+                matrice[i][w] = matrice[i-1][w]
+
+    # Retrouver les éléments en fonction de la somme
+    w = capacite
+    n = len(elements)
+    elements_selection = []
+
+    while w >= 0 and n >= 0:
+        e = elements[n-1]
+        if matrice[n][w] == matrice[n-1][w-e[1]] + e[2]:
+            elements_selection.append(e)
+            w -= e[1]
+
+        n -= 1
+
+    return matrice[-1][-1], elements_selection
 
 
 
