@@ -222,7 +222,7 @@ def sacados_glouton(budget, appariement):
 
     return gain, selection #on revoie le profit et les éléments selectionnés
 
-#print('test1', sacados_glouton(B2, a))
+print('test1', sacados_glouton(B2, a))
 
 
 
@@ -306,7 +306,7 @@ def sacados_force_brute(budget, appariement, selection = []):
 B3 = 10
 a2=((1,8,10),(2,4,6),(3,6,6))
 
-#print(sacados_force_brute(B3, a2))
+print(sacados_force_brute(B3, a2))
 
 
  
@@ -319,15 +319,16 @@ a2=((1,8,10),(2,4,6),(3,6,6))
 
 
 
-def sacADos_dynamique(capacite, elements):
+def sacados_dynamique(budget, appariement):
     '''Algorithme de programmation dynamique : 
-    Le but est de créer une matrice : les lignes correspondent aux différents camions, les colonnes
-        arg :
+    Le but est de créer une matrice : les lignes correspondent aux différents camions, les colonnes au budget (pour l'instant chaque colonne correspond à 1€)
+    Pour chaque objet et chaque budget donnée, on regarde le max d'utilité entre le panier à ce budget donné sans le camion et 
+    l'utilité de ce camion + l'utilité - du panier avec un budget = budget - prix du camion
+            arg :
             budget(int): budget de l'entreprise
             appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
             rappel : appariement(list) : les éléments sont sous la forme
 (puissance camion, coût camion, utilité)
-            selection(list) : pour la récursivité, selection des tuples (camion, cout camion, utilité route)
         
         returns :
             profit(float): profit effectué (ce que l'on cherche à maximiser)
@@ -335,32 +336,37 @@ def sacADos_dynamique(capacite, elements):
 
 
 '''
-    matrice = [[0 for x in range(capacite + 1)] for x in range(len(elements) + 1)]
+    matrice = [[0 for x in range(budget + 1)] for x in range(len(appariement) + 1)]
+    #création de la matrice 
 
-    for i in range(1, len(elements) + 1):
-        for w in range(1, capacite + 1):
-            if elements[i-1][1] <= w:
-                matrice[i][w] = max(elements[i-1][2] + matrice[i-1][w-elements[i-1][1]], matrice[i-1][w])
+    for i in range(1, len(appariement) + 1):
+        for j in range(1, budget + 1):
+            if appariement[i-1][1] <= j:
+                matrice[i][j] = max(appariement[i-1][2] + matrice[i-1][j-appariement[i-1][1]], matrice[i-1][j])
             else:
-                matrice[i][w] = matrice[i-1][w]
+                matrice[i][j] = matrice[i-1][j]
 
     # Retrouver les éléments en fonction de la somme
-    w = capacite
-    n = len(elements)
-    elements_selection = []
+    b = budget
+    n = len(appariement)
+    selection = []
 
-    while w >= 0 and n >= 0:
-        e = elements[n-1]
-        if matrice[n][w] == matrice[n-1][w-e[1]] + e[2]:
-            elements_selection.append(e)
-            w -= e[1]
+    while b >= 0 and n >= 0:
+        c = appariement[n-1]
+        if matrice[n][b] == matrice[n-1][b-c[1]] + c[2]:
+            selection.append(c)
+            b -= c[1]
 
         n -= 1
+    profit=matrice[-1][-1]
 
-    return matrice[-1][-1], elements_selection
+    return profit, selection
 
 
+B3 = 10
+a2=((1,8,10),(2,4,6),(3,6,6))
 
+print(sacados_dynamique(B3, a2))
 
 
     
