@@ -114,18 +114,19 @@ def profondeur(node, prof, parent, g, profondeurs, parents):
         g(objet de la classe graphe): graphe dont est issu node
         profondeurs(dictionbnaire): dictionnaire des profondeurs à modifier
         parents(dictionnaire): dictionnaires de parents à modifier 
+
     returns :
         profondeurs(dictionbnaire): dictionnaire des profondeurs ayant pour clefs les noeuds de l'arbre et pour valeurs les profondeurs associées
         parents(dictionnaire): dictionnaires de parents à modifier ayant pour clefs les noeuds de l'arbre et pour valeurs leur parent
 
 '''
-        profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
-        parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
+    profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
+    parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
         #print(parents)
 
-        for voisin in g.graph[node] :
-            if voisin[0] != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
-                profondeur(voisin[0], prof +1, node, g, profondeurs, parents)#on réitère donc la fonction en prenant pour
+    for voisin in g.graph[node] :
+        if voisin[0] != parent : #on cherche à s'enfoncer dans l'arbre donc on ne veut pas retourner vers le parent
+            profondeur(voisin[0], prof +1, node, g, profondeurs, parents)#on réitère donc la fonction en prenant pour
                 #nouveau parent, le noeud voisin, on s'enfonce dans l'arbre, donc on augmente la profondeur de 1
 
 #on code une fonction qui renvoie 2 dictionnaires dont les clefs sont les noeuds de l'arbre :
@@ -136,6 +137,12 @@ un dictionnaire des profondeurs et un dictionnaires des parents.
 Args :
     racine(int): racine de l'arbre que l'on choisit
     g(objet de la classe graphe): arbre dont on veut connaitre les profondeurs et les parents de ses noeuds.
+Returns :  
+    parents(dictionnaire): dictionnaire des parents des noeuds du graphe 
+        (les noeuds sont les clefs, les parents les valeurs associées)
+    profondeurs(dictionnaire): dictionnaire des profondeurs des noeuds du graphe 
+        (les noeuds sont les clefs, les profondeurs les valeurs associées) 
+
     '''
     profondeurs={} #on initialise
     parents ={} # on initialise
@@ -144,7 +151,21 @@ Args :
     return profondeurs, parents
 
 
+
 def min_power2 (g_mst, src, dest):
+    '''Cette fonction calcule le chemin de puissance minimal entre src et dest en utilisant les propriétés de l'arbre couvrant minimal.
+    Ici, on prend pour racine du graphe la destination (dest). On calcule la profondeur de la source (src).
+    Il suffit alors de rejoindre la source en remontant de parent en parent le nombre de fois nécessaire (c'est à dire
+    de la profondeur de dest).
+
+    Args :
+        g_mst(objet de la classe graphe): arbre couvrant minimal considéré
+        src(inbt): noeud source
+        dest(int):noeud destination
+    returns :
+        chemin(liste) : renvoie le chemin reliant src à dest qui est donc par les propriétés de l'arbre couvrant minimal
+        le chemin le plus économique en puissance.
+    '''
     #g_mst=kruskal(g) #on récupère l'arbre minimal couvrant
     #print(g_mst)
     chemin=[src]
@@ -161,7 +182,22 @@ def min_power2 (g_mst, src, dest):
 def min_power3(src, dest, g_mst, parents, profondeurs):
     '''Le principe de cette fonction est de trouver le plus proche parent commun de dest et de src.
     On crée deux chemins, le premier relier la src à ce parent, le deuxième la destination au parent commun. 
-    On concatène ensuite les deux chemins. On sait que ce chemin est unique par priopriété de kruskal'''
+    On concatène ensuite les deux chemins. On sait que ce chemin est unique et le 
+    plus économique en puissance par priopriété de kruskal
+    
+    Args :
+        src(int): noeud source
+        dest(int): noeud destination
+        parents(dictionnaire): dictionnaire des parents des noeuds du graphe 
+        (les noeuds sont les clefs, les parents les valeurs associées)
+        profondeurs(dictionnaire): dictionnaire des profondeurs des noeuds du graphe 
+        (les noeuds sont les clefs, les profondeurs les valeurs associées) 
+    returns :
+        
+        chemin(list): liste contenant les noeuds composant le chemin le plus économique en
+        puissance entre src et dest
+        p_min(int): puissance minimale que le camion doit posséder pour rejoindre les deux noeuds.'''
+
     #initialisation des chemins
     chemin1=[src] 
     chemin2=[dest]
@@ -254,7 +290,7 @@ def min_power3(src, dest, g_mst, parents, profondeurs):
 '''Données pour tester min_power3'''
 
 network = "input/network.00.in"
-network2= "input/network.1.in"
+network2= "input/network.2.in"
 g1 = graph_from_file(network2)
 g2=kruskal(g1)
 #print(g2)

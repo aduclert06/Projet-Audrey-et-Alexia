@@ -89,19 +89,19 @@ class Graph:
             ou
             resultat(fonction): récursivité
             '''
-            if  node == dest :
-                return chemin
+        if  node == dest :
+            return chemin
 
-            for voisin in self.graph[node]:#on regarde les voisins du noeud
+        for voisin in self.graph[node]:#on regarde les voisins du noeud
                 
-                if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
+            if voisin[1] <= power and not visited_node[voisin[0]]:#si la puissance pour rejoindre le voisin est inférieure à celle donnée, alors on peut passer et on vérifie qu'on n'a pas déjà visité ce noeud
                     
-                    visited_node[voisin[0]]=True#on marque que le noeud a été visité
+                visited_node[voisin[0]]=True#on marque que le noeud a été visité
                         
-                    resultat = self.parcours_profondeur(voisin[0], chemin+[voisin[0]], dest, power, visited_node)#sinon on continue l'exploration en profondeur, en ajoutant le voisin au chemin potentiel
-                    if resultat is not None:
-                        return resultat
-            return None  #s'il ne trouve pas de chemin, on renvoie NONE
+                resultat = self.parcours_profondeur(voisin[0], chemin+[voisin[0]], dest, power, visited_node)#sinon on continue l'exploration en profondeur, en ajoutant le voisin au chemin potentiel
+                if resultat is not None:
+                    return resultat
+        return None  #s'il ne trouve pas de chemin, on renvoie NONE
 
     def get_path_with_power(self, src, dest, power):
         '''Cette fonction indique s'il existe ou non un chemin entre une deux noeuds notés source et destination 

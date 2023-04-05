@@ -384,6 +384,19 @@ B = 25*10**9 #budget
 
 
 def simplification(budget, appariement, facteur):
+    '''Cette fonction permet de simplifier le budget et du cpût du camion pour effectuer moins d'opérations 
+    lors des algorithmes de type sac à dos
+    Args :
+         
+        budget(int): budget de l'entreprise
+        appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
+        facteur(int): facteur de division de budget et du coût du camion
+    Returns :
+
+
+    '''
     budget = budget//facteur
     A=[]
     for i in range (len(appariement)):

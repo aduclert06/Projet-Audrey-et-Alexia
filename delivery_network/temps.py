@@ -12,7 +12,10 @@ from kruskal_min_power import*
 
 
 
-######fOn définit une fonction qu'on peut appliquer à chaque fichier routes######
+######On définit une fonction qu'on peut appliquer à chaque fichier routes######
+
+'''Dans l'ensemble de ces fonctions l'argument sera toujours le même :
+Args: x(int): numéro du fichier routes.x.in'''
 
 def temps(x):
 
@@ -109,7 +112,7 @@ def temps2(x):
     debut2 = perf_counter()
     min_power2(g1,src2,dest2)
     fin2 = perf_counter()
-    tmp2= fin2 - debut2#
+    tmp2= fin2 - debut2
 
 
     debut3 = perf_counter()

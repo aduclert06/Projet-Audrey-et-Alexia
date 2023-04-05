@@ -2,6 +2,14 @@ from graph import Graph, graph_from_file
 from kruskal_min_power import*
 
 def routes_out(x):
+     ''' Cette fonction permet de générer le fichier route out sous forme de fichier texte.
+     Ce fichier à T lignes (nombre de trajets étudiés). Chaque ligne est composé de deux entiers ou floatants
+     respectivement la puissance minimale pour parcourir la route et son utilité.
+
+        Args: x(int): numéro du fichier routes.x.in
+        returns : None
+        génère fichier routes.x.out
+    '''
 
     filename="input/routes."+ str(x) + ".in"
     filename_new="input/routes."+ str(x) + ".out"
@@ -39,7 +47,7 @@ for i in range(1,11):
 
     print(routes_out(i))
     '''
-print(routes_out(1))
+print(routes_out(2))
     
 
 
