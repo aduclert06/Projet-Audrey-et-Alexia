@@ -40,6 +40,17 @@ class Graph:
         return output
     
     def add_edge(self, node1, node2, power_min, dist=1):
+        '''Cette fonction permet decréer une arête entre deux noeuds du graphe, pondéré par une puissance minimale que le
+        camion doit posséder pour aller de node1 à node 2,ainsi qu'une autre valeur distance égale à 1 par défault.
+
+        args :
+            node1(int):premier noeud à relier
+            node2(int): deuxième noeud à relier
+            power_min(int): puisssance minimale que le camion doit avoir pour relier les deux noeuds
+            dist(float):distance entre les deux noeuds
+        returns :
+            graph(dictionnaire): renvoie le graphe modifié avec l'ajout de l'arête sous la forme d'un dicitonnaire de la classe.
+        '''
         self.nb_edges +=1
         
 
@@ -59,8 +70,25 @@ class Graph:
             
         return self.graph
     
-    def parcours_profondeur(self, node, chemin, dest, power, visited_node):#on fait une fonction récursive pour voir s'il l'on peut rejoindre la destination avec la puissance donnée sur le principe du parcours en profondeur
-            
+    def parcours_profondeur(self, node, chemin, dest, power, visited_node):
+        '''on fait une fonction récursive pour voir s'il l'on peut rejoindre 
+        la destination avec la puissance donnée sur le principe du parcours en profondeur.
+        Cette fonction sert donc à faire le parcours en profondeur.
+        A partir d'un noeud, on va visiter les noeuds voisins s'ils n'ont pas encore été visités.
+
+        args: 
+            node(int): noeud dont on va visiter les voisins
+            chemin(list): chemin stocke les noeuds d'où l'on vient
+            dest(int): noeud de destination à rejoinbdre s'il existe un chemin
+            power(int): puissance du camion pour savoir s'il existe un chemin entre deux noeuds donnés avec une telle puissance
+            visited_node(dictionnaire): dictionnaire dont les clefs sont les noeudsayant pour valeur true or false selon qu'ils
+            aient été visités ou non
+
+        returns:
+            None
+            ou
+            resultat(fonction): récursivité
+            '''
             if  node == dest :
                 return chemin
 
@@ -76,6 +104,16 @@ class Graph:
             return None  #s'il ne trouve pas de chemin, on renvoie NONE
 
     def get_path_with_power(self, src, dest, power):
+        '''Cette fonction indique s'il existe ou non un chemin entre une deux noeuds notés source et destination 
+        avec une puissance donnée. Si c'est la cas la fonction renvoie un chemin possible entre ces deux noeuds.
+        Sinon la fonction renvoie None.
+
+        args :
+            src(int): noeud source
+            dest(int): noeud destination
+            power(int): puissance donnée
+        
+        '''
         chemin =[src]#on initialise le chemin par son début qui est la source, src
         #pour ce programme on reprend le principe du parcours en profondeur des composantes connexes, auquel on va ajouter la condition de puissance
         visited_node = {node : False for node in self.nodes}#on crée un dictionnaire notifiant le statut des noeuds(visité ou non)
@@ -84,7 +122,13 @@ class Graph:
         res = self.parcours_profondeur(src, chemin, dest, power, visited_node)#sinon on renvoie le premier chemin trouvé
         return  res
     
-    def parcours_profondeur_components(self, node, visited_node): #on crée une fonction récursive qui va parcourir toute la composante connexe
+    def parcours_profondeur_components(self, node, visited_node): 
+        '''on crée une fonction récursive qui va parcourir toute la composante connexe
+        args :
+            node(int): noeud du départ du parcours en profondeur
+            visited_node(dictionnaire): dictionnaire ayant pour clef les noeuds et indiquant si les noeuds ont été visités ou non à l'aide de booléens
+        returns :
+            composante(list): liste donnant les  noeuds appartenant à la même composante connexe'''
         composante = [node]#La composante est constitué d'un premier noeud
         for voisin in self.graph[node]:#on va visiter les voisins de ce noeud
             voisin = voisin[0]
@@ -94,6 +138,11 @@ class Graph:
         return composante #on renvoie la composante
     
     def connected_components(self):
+        '''Trouve les composantes  connexes du graphe en utilisant un parcours en profondeur
+        retruns:
+            liste_composante(list): liste des composantes connexes'''
+
+    
         liste_composantes = []#On crée la liste vide des composante, que l'on va compléter au long du programme
         visited_node = {node : False for node in self.nodes}#on crée un dictionnaire qui indique si un noeud a été visité ou non
 
@@ -112,7 +161,18 @@ class Graph:
     
     def min_power(self, src, dest):
         """
-        Should return path, min_power. 
+        Should return path, min_power.
+        Cette fonction renvoie le chemin entre deux noeuds avec la puissance minimale que le camion doit avoir 
+        pour rejoindre ces deux noeuds en faisant une dichotomie sur les puissances du graphe pour trouver
+        la puissance minimale.
+
+        args :
+            src(int): noeud source
+            dest(int): noeud destination
+
+        returns :
+            chemin_eco(list): liste contenant les noeuds composant le chemin entre src et dest
+            p_min(int): puissance minimale que le camion doit posséder pour rejoindre les deux noeuds.
         """
         #on fait une recherche dichotomique sur la puissance
 
