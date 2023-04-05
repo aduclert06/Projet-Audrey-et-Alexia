@@ -11,6 +11,15 @@ from time import*
 
 
 def find(parent, x):
+    '''fonction permettant de trouver le parent de x, qui est donc le représentant de l'ensemble auquem il appartient.
+    Fonction utile dans l'algorithme de Kruskal
+    args: 
+        parent(list): liste répertoriant les parents de chaque noeud. le parent de i est parent[i]
+        x(int): noeud dont on veut trouver le parent
+    returns:
+        parent[x](int): parent de x
+
+    '''
     if parent[x] != x:
         parent[x]=find(parent, parent[x])
     return parent[x]
@@ -18,6 +27,12 @@ def find(parent, x):
     
 
 def kruskal(g):
+    '''Algorithme de Kruskal. transforme un graphe dont les arêtes sont pondérés en un arbre couvrant minimal (on ne garde que les chemins de poids minimal entre les noeuds)
+    args :
+        g(objet de la classe Graph): graphe dont on veut l'arbre couvrant minimal
+    returns:
+        g_mst(objet de la classe Graph): arbre couvrant minimal du graphe g'''
+
     g_mst=Graph() #on initialise le graphe à renvoyer
 
     mst_edges=[]
@@ -90,6 +105,20 @@ def kruskal(g):
 #on code une fonction qui calcule les parents et les profondeurs des noeuds de l'arbre
 
 def profondeur(node, prof, parent, g, profondeurs, parents):
+    '''Cette fonction est appelé dans la fonction parents_profondeurs. C'est elle qui fait les calculs.
+    et modifie les deux dictionnaires pour renvoyer les dictionnaires parents et profondeurs.
+    args :
+        node(int): noeud dont on part pour s'enfoncer dans l'arbre
+        prof(int): profondeur de node
+        parent(int): parent de node
+        g(objet de la classe graphe): graphe dont est issu node
+        profondeurs(dictionbnaire): dictionnaire des profondeurs à modifier
+        parents(dictionnaire): dictionnaires de parents à modifier 
+    returns :
+        profondeurs(dictionbnaire): dictionnaire des profondeurs ayant pour clefs les noeuds de l'arbre et pour valeurs les profondeurs associées
+        parents(dictionnaire): dictionnaires de parents à modifier ayant pour clefs les noeuds de l'arbre et pour valeurs leur parent
+
+'''
         profondeurs[node]= prof #profondeurs est un dictionnaire, on ajoute donc la profondeur correspondante au noeud
         parents[node]= parent #parents est un dictionnaire, on ajoute le parent du noeud 
         #print(parents)
@@ -102,6 +131,12 @@ def profondeur(node, prof, parent, g, profondeurs, parents):
 #on code une fonction qui renvoie 2 dictionnaires dont les clefs sont les noeuds de l'arbre :
 #un dictionnaire des profondeurs et un dictionnaires des parents
 def parents_profondeurs(racine, g) :
+    '''cette fonction renvoie 2 dictionnaires dont les clefs sont les noeuds de l'arbre :
+un dictionnaire des profondeurs et un dictionnaires des parents.
+Args :
+    racine(int): racine de l'arbre que l'on choisit
+    g(objet de la classe graphe): arbre dont on veut connaitre les profondeurs et les parents de ses noeuds.
+    '''
     profondeurs={} #on initialise
     parents ={} # on initialise
 

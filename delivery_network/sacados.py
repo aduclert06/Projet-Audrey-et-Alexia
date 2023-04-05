@@ -132,7 +132,7 @@ def appariement(x_trucks,y_routes):
         x_trucks(int): numéro du fichier trucks_utile.x_trucks.out
         y_routes(int): numéro du fichier routes.y_routes.out
 
-    returns : appariement (lis) : liste des appariements dont les éléments sont comme suit 
+    returns : appariement (list) : liste des appariements dont les éléments sont comme suit 
     (puissance camion sélectionné, coût du camion selectionné, utilité de la route à traverser avec le camion sélectionné)
     '''
     catalogue = catalogue_from_file_out(x_trucks)
