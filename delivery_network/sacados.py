@@ -250,7 +250,8 @@ def sacados_glouton2(budget, appariement):
     '''Cette fonction est une amélioration de glouton : au lieu de trier l'appariement par utilité, on trie par utilié/côut, 
     permet de sélectionner les camions dont le rapport utilité/coût est le plus élevé ie dont le gain relatif ets le plus élevéd
     Cette fonction traite le problème éléments à éléments.
-    La solution obtenu n'est donc pas l'optimum
+    La solution obtenu n'est donc pas l'optimum. On rajoute également S_2 = {élement avec la plus grande utilité} qui nous permettra
+    d'avoir une approximation théorique de notre solution (cf démo du contre rendu)
     
         args : 
             budget(int)= le budget de l'entreprise de transport
@@ -274,6 +275,15 @@ def sacados_glouton2(budget, appariement):
             selection.append(el) #alors on l'ajoute à notre selection
             cout_total += el[1] #on actualise le cout total
     gain = sum([i[2] for i in selection])
+
+    utilite = lambda x: x[2]
+    couple_max = max(liste, key=utilite)
+
+    if couple_max[2]>gain:
+        gain = couple_max[2]
+        selection=[]
+        selection.append(couple_max)
+
 
     return gain, selection #on revoie le profit et les éléments selectionnés
 
