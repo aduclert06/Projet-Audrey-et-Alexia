@@ -37,7 +37,7 @@ def catalogue_from_file_out(x):
         returns : res(list) : liste des couples (puissance, cout) de chaque camion utile du fichier trucks_utile
     '''
 
-    filename="input/trucks_utile."+ str(x) + ".out"
+    filename="output/trucks_utile."+ str(x) + ".out"
     res=[]
 
     with open(filename) as file: #on ouvre le fichier
@@ -62,7 +62,7 @@ def routes_from_file_out(x):
         returns : res(list) : liste des couples (puissance min, utilite) de chaque trajet du fichier routes.x.out
     '''
 
-    filename="input/routes."+ str(x) + ".out"
+    filename="output/routes."+ str(x) + ".out"
     filenamein="input/routes."+ str(x) + ".in"
     res=[]
 
@@ -107,7 +107,7 @@ def catalogue_utile(x):
     
     #Création du fichier text qui sera notre nouveau fichier de référence
 
-    filename_new="input/trucks_utile."+ str(x) + ".out"
+    filename_new="output/trucks_utile."+ str(x) + ".out"
 
     with open(filename_new, "w") as file :
         a=str(len(catalogue_utile))
@@ -181,6 +181,8 @@ def appariement(x_trucks,y_routes):
             pm=catalogue[m][0]
             
     return(appariement)
+
+print(appariement(0, 1))
 
 def temps_appariement(x_trucks,y_routes):
 
@@ -459,7 +461,7 @@ rappel : appariement(list) : les éléments sont sous la forme
 
     return(sacados_dynamique(budget, appariement))
  
-print(fptas(a,B,0.8))
+#print(fptas(a,B,0.8))
 
      
 
