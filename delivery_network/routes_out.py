@@ -43,12 +43,12 @@ def routes_out(x):
              file.write(str(puissance)+ " " + utilite + "\n")
 
 
-for i in range(1,11):
+#for i in range(1,11):
 
-    print(routes_out(i))
+    #print(routes_out(i))
  
 
-    
+#rendu 06/04/23
 
 
         

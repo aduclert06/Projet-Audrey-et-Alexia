@@ -276,18 +276,18 @@ def sacados_glouton2(budget, appariement):
             cout_total += el[1] #on actualise le cout total
     gain = sum([i[2] for i in selection])
 
-    utilite = lambda x: x[2]
-    couple_max = max(liste, key=utilite)
+    appariement_max = sorted(appariement, key=lambda x: x[2]) #on trie les éléments d'appariement selon leur utilité
+    utilite_max = appariement_max[len(appariement)-1][2]
 
-    if couple_max[2]>gain:
-        gain = couple_max[2]
+    if utilite_max>gain:
+        gain = utilite_max
         selection=[]
-        selection.append(couple_max)
+        selection.append(utilite_max)
 
 
     return gain, selection #on revoie le profit et les éléments selectionnés
 
-#print('test2', sacados_glouton2(B2, a))
+print('test2', sacados_glouton2(B2, a))
 
 
 
@@ -475,6 +475,6 @@ rappel : appariement(list) : les éléments sont sous la forme
 
      
 
-
+#rendu 06/04/23
 
     

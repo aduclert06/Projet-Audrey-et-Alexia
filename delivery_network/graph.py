@@ -321,6 +321,7 @@ def graph_from_file(filename): #fonction qui crée un graphe qui sera alors du t
             else:
                 G.add_edge(node1, node2, power_min)
     return G
+#rendu 06/04/23
 
     
 

@@ -239,15 +239,17 @@ def temps_total(x) :
 
 def comparaison(x):
     #print(temps(x))
-    #print(temps3(x))
+    print(temps3(x))
     #print(calcul(x))
     #print(temps_kruskal_prof_par(x))
     
     print(temps_total(x))
 
-for i in range (1,10):
-    print(comparaison(i))
+#print(comparaison(1))
+#for i in range (1,10):
+    #print(comparaison(i))
 
 '''Conclusion : On trouve un résultat de l'ordre de la minute, on a lancé plusieurs fois le programme, on trouve
 au maximum un temps inférieur à 200s '''
 
+#rendu 06/04/23

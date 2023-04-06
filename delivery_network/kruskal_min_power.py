@@ -1,5 +1,3 @@
-#https://github.com/aduclert06/Projet-Audrey-et-Alexia.git
-
 from graph import Graph, graph_from_file
 from time import*
 
@@ -296,3 +294,5 @@ po, pa = parents_profondeurs(1, g2)
 
 #print(g1)
 #print(kruskal(g1))
+
+#rendu 06/04/23
