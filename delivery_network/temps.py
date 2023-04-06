@@ -166,7 +166,6 @@ def temps3(x):
             dest4=int(ligne4[1]) # Second noeud à relier
 
 
-
     g = graph_from_file(network)
     g1=kruskal(g)
     

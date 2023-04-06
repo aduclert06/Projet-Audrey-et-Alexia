@@ -1,5 +1,6 @@
 from graph import Graph, graph_from_file
 from kruskal_min_power import*
+from numpy import floor
 
 #enlever les camions inutiles (plus cher que d'autres camion avec une plus grande puissance)
 
@@ -394,6 +395,8 @@ rappel : appariement(list) : les éléments sont sous la forme
 (puissance camion, coût camion, utilité)
         facteur(int): facteur de division de budget et du coût du camion
     Returns :
+        budget(int): nouveau budget simplifié
+        A(list): nouvelle liste d'appariement avec les valeurs simplifiées.
 
 
     '''
@@ -410,10 +413,56 @@ rappel : appariement(list) : les éléments sont sous la forme
 
 a= appariement(1, 2)
 
+budget_bis, appariement_bis = simplification(B,a,10000)
 
-budget_bis, appariement_bis = simplification(B, a, 10000)
+#print(sacados_dynamique(budget_bis, appariement_bis))
 
-print(sacados_dynamique(budget_bis, appariement_bis))
+#tentative fptas, encore longue sur les gros graphes, on pourrait chercher à l'optimiser encore
+def fptas(appariement, budget, eps):
+
+    '''Cette fonction permet de simplifier le budget et du cpût du camion pour effectuer moins d'opérations 
+    lors des algorithmes de type sac à dos. Elle ne renvoie pas forcément l'optimum mais s'en approche à epsilon près.
+    Args :
+         
+        budget(int): budget de l'entreprise
+        appariement(liste) : liste des routes à traversé avec le camion coutant le moins cher pour chaque route
+rappel : appariement(list) : les éléments sont sous la forme
+(puissance camion, coût camion, utilité)
+        eps(float): approximation
+
+    Returns :
+        profit(float): profit effectué (ce que l'on cherche à maximiser)
+            selection(list) : selection des tuples (camion, cout camion, utilité route) renvoyant le profit max
+
+
+    '''
+    #calcul du facteur d'approximation
+
+    #on cherche l'utilité maximale
+    appariement_tri = sorted(appariement, key=lambda x: x[2])
+    n=len(appariement)
+    umax= appariement[n-1][2]
+    facteur=(eps*umax)/n
+
+    #on modifie les valeurs
+
+    A=[]
+    for i in range (len(appariement)):
+        
+        a = appariement[i]
+        a_liste=list(a)
+
+        a_liste[1]=floor(a_liste[1]/facteur)
+        A.append(a_liste)
+    appariement=A
+    budget = floor(budget/facteur)
+
+    return(sacados_dynamique(budget, appariement))
+ 
+print(fptas(a,B,0.8))
+
+     
+
 
 
     

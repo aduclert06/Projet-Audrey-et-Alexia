@@ -210,6 +210,72 @@ class Graph:
         chemin_eco=self.get_path_with_power(src, dest, p_tmp)
         p_min=p_tmp
         return (chemin_eco, p_min)
+
+    def get_shortest_path_with_power(self, src, dest, power):
+
+        '''Cette fonction indique s'il existe ou non un chemin entre une deux noeuds notés source et destination 
+
+        avec une puissance donnée. Si c'est la cas la fonction renvoie le chemin le plus court possible entre ces deux noeuds,
+
+        sinon la fonction renvoie None.
+
+
+
+        args :
+
+            src(int): noeud source
+
+            dest(int): noeud destination
+
+            power(int): puissance donnée
+        returns :
+            best_path(list): liste des noeuds représentant le meilleur chemin selon les conditions données
+
+        '''
+
+        visited_node = {node: False for node in self.nodes}
+
+        visited_node[src] = True
+
+        best_path = None
+
+        best_path_length = float('inf')
+
+
+
+        def dfs(node, chemin, dest, power, visited_node):
+
+            nonlocal best_path, best_path_length
+
+            
+
+            if node == dest:
+
+                if len(chemin) < best_path_length:
+
+                    best_path = chemin
+
+                    best_path_length = len(chemin)
+
+                return
+
+
+
+            for voisin in self.graph[node]:
+
+                if voisin[1] <= power and not visited_node[voisin[0]]:
+
+                    visited_node[voisin[0]] = True
+
+                    dfs(voisin[0], chemin + [voisin[0]], dest, power, visited_node)
+
+                    visited_node[voisin[0]] = False
+
+
+
+        dfs(src, [src], dest, power, visited_node)
+
+        return best_path
     
     
 

@@ -3,13 +3,6 @@
 from graph import Graph, graph_from_file
 from time import*
 
-'''on estime le temps nécessaire pour calculer (à l’aide du code développé dans la séance 1) la
-#puissance minimale (et le chemin associé) sur l’ensemble des trajets pour chacun des fichiers routes.x.in
-#donnés.'''
-
-
-
-
 def find(parent, x):
     '''fonction permettant de trouver le parent de x, qui est donc le représentant de l'ensemble auquem il appartient.
     Fonction utile dans l'algorithme de Kruskal
